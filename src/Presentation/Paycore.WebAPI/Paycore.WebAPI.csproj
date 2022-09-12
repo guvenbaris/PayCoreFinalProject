@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+		<PackageReference Include="FluentNHibernate" Version="3.1.0" />
+		<PackageReference Include="NHibernate" Version="5.3.12" />
+		<PackageReference Include="Npgsql" Version="6.0.6" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Core\PayCore.Application\PayCore.Application.csproj" />
+		<ProjectReference Include="..\..\Infrastructure\PayCore.Infrastructure\PayCore.Infrastructure.csproj" />
+		<ProjectReference Include="..\..\Service\PayCore.BusinessService\PayCore.BusinessService.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+	
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\PayCore.Application\PayCore.Application.csproj" />
+  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="FluentNHibernate" Version="3.1.0" />
+		<PackageReference Include="NHibernate" Version="5.3.12" />
+		<PackageReference Include="Npgsql" Version="6.0.6" />
+	</ItemGroup>
+
+</Project>
