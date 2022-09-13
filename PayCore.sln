@@ -13,19 +13,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B80B0580-47A4-4D7C-ADB2-80A2F6318BDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayCore.Domain", "src\Core\PayCore.Domain\PayCore.Domain.csproj", "{A8152A97-E6F7-4D2A-83FA-EEBF1487BE97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayCore.Domain", "src\Core\PayCore.Domain\PayCore.Domain.csproj", "{A8152A97-E6F7-4D2A-83FA-EEBF1487BE97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayCore.Application", "src\Core\PayCore.Application\PayCore.Application.csproj", "{20D0818F-CE68-4A19-B7CC-5CF090288C49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayCore.Application", "src\Core\PayCore.Application\PayCore.Application.csproj", "{20D0818F-CE68-4A19-B7CC-5CF090288C49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayCore.Infrastructure", "src\Infrastructure\PayCore.Infrastructure\PayCore.Infrastructure.csproj", "{49C855A5-61E9-4D54-93BE-2EA15D57C38E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayCore.Infrastructure", "src\Infrastructure\PayCore.Infrastructure\PayCore.Infrastructure.csproj", "{49C855A5-61E9-4D54-93BE-2EA15D57C38E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayCore.Persistence", "src\Infrastructure\PayCore.Persistence\PayCore.Persistence.csproj", "{49C18D05-4A57-48BF-A5A6-98AC3FFE2ACF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paycore.WebAPI", "src\Presentation\Paycore.WebAPI\Paycore.WebAPI.csproj", "{AD3E741E-81C2-4F8A-B037-4493E78B0ACD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paycore.WebAPI", "src\Presentation\Paycore.WebAPI\Paycore.WebAPI.csproj", "{AD3E741E-81C2-4F8A-B037-4493E78B0ACD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{4E2CD2C1-F757-42BE-A9CB-407E98EB7B36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayCore.BusinessService", "src\Service\PayCore.BusinessService\PayCore.BusinessService.csproj", "{04A23BE1-136E-4C17-9395-C02327D35AF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayCore.BusinessService", "src\Service\PayCore.BusinessService\PayCore.BusinessService.csproj", "{04A23BE1-136E-4C17-9395-C02327D35AF7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence", "{DE8B0171-C73D-4226-8BC6-EFB452169F2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayCore.Persistence", "src\Persistence\PayCore.Persistence\PayCore.Persistence.csproj", "{DCAD0FD0-8D43-459C-B4BD-3538C95E9916}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,10 +47,6 @@ Global
 		{49C855A5-61E9-4D54-93BE-2EA15D57C38E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49C855A5-61E9-4D54-93BE-2EA15D57C38E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49C855A5-61E9-4D54-93BE-2EA15D57C38E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{49C18D05-4A57-48BF-A5A6-98AC3FFE2ACF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{49C18D05-4A57-48BF-A5A6-98AC3FFE2ACF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{49C18D05-4A57-48BF-A5A6-98AC3FFE2ACF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{49C18D05-4A57-48BF-A5A6-98AC3FFE2ACF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AD3E741E-81C2-4F8A-B037-4493E78B0ACD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AD3E741E-81C2-4F8A-B037-4493E78B0ACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD3E741E-81C2-4F8A-B037-4493E78B0ACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,6 +55,10 @@ Global
 		{04A23BE1-136E-4C17-9395-C02327D35AF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04A23BE1-136E-4C17-9395-C02327D35AF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04A23BE1-136E-4C17-9395-C02327D35AF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCAD0FD0-8D43-459C-B4BD-3538C95E9916}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCAD0FD0-8D43-459C-B4BD-3538C95E9916}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCAD0FD0-8D43-459C-B4BD-3538C95E9916}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCAD0FD0-8D43-459C-B4BD-3538C95E9916}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,10 +71,11 @@ Global
 		{A8152A97-E6F7-4D2A-83FA-EEBF1487BE97} = {76CCB3BD-B701-423E-922D-6607045381FC}
 		{20D0818F-CE68-4A19-B7CC-5CF090288C49} = {76CCB3BD-B701-423E-922D-6607045381FC}
 		{49C855A5-61E9-4D54-93BE-2EA15D57C38E} = {B4560E80-CFF7-45E2-915B-E6B84C3BFB0E}
-		{49C18D05-4A57-48BF-A5A6-98AC3FFE2ACF} = {B4560E80-CFF7-45E2-915B-E6B84C3BFB0E}
 		{AD3E741E-81C2-4F8A-B037-4493E78B0ACD} = {42FA76F6-7A2D-44A6-A578-EA454979EAFD}
 		{4E2CD2C1-F757-42BE-A9CB-407E98EB7B36} = {8DF16178-3EF8-4F92-B4C7-017F91886236}
 		{04A23BE1-136E-4C17-9395-C02327D35AF7} = {4E2CD2C1-F757-42BE-A9CB-407E98EB7B36}
+		{DE8B0171-C73D-4226-8BC6-EFB452169F2C} = {8DF16178-3EF8-4F92-B4C7-017F91886236}
+		{DCAD0FD0-8D43-459C-B4BD-3538C95E9916} = {DE8B0171-C73D-4226-8BC6-EFB452169F2C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2F7F2E06-1569-41C0-B06F-BDD1324BB23F}
