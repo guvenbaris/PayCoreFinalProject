@@ -8,8 +8,8 @@ using NHibernate.Cfg;
 using NHibernate.Cfg.MappingSchema;
 using NHibernate.Dialect;
 using NHibernate.Mapping.ByCode;
-using PayCore.Application.Interfaces.Services;
 using PayCore.Infrastructure.UnitOfWork;
+using PayCore.Application.Utilities.Appsettings;
 
 namespace PayCore.Infrastructure.DependencyContainer
 {
@@ -17,8 +17,11 @@ namespace PayCore.Infrastructure.DependencyContainer
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services,IConfiguration configurationManager)
         {
+            IConfigurationSection appSettingsSection = configurationManager.GetSection("PayCoreSettings");
+            services.Configure<PayCoreAppSettings>(appSettingsSection);
+
             var mapper = new ModelMapper();
-            string connectionString = configurationManager.GetConnectionString("DefaultConnection");
+            string connectionString = configurationManager.GetConnectionString("MySql");
             mapper.AddMappings(typeof(DependencyContainer).Assembly.ExportedTypes);
             HbmMapping domainMapping = mapper.CompileMappingForAllExplicitlyAddedEntities();
 
