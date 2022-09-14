@@ -50,11 +50,11 @@ namespace PayCore.Infrastructure.Mapping
                     x.Column("apartment_number");
                     x.Type(NHibernateUtil.Int32);
                 });
-            Property(x => x.StayingType,
+            Property(x => x.PersonId,
                 x =>
                 {
-                    x.Column("staying_type");
-                    x.Type(NHibernateUtil.Int32);
+                    x.Column("person_id");
+                    x.Type(NHibernateUtil.Int64);
                 });
             Property(x => x.IsDeleted,
                 x =>
