@@ -10,8 +10,6 @@ namespace PayCore.BusinessService.Cache
         public CacheService(IOptions<PayCoreAppSettings> payCoreAppSettings)
         {
             _payCoreAppSettings = payCoreAppSettings;
-
-            var deneme = payCoreAppSettings.Value.RedisSettings.SlidingExpirationHours;
         }
 
         public void Delete(string key)

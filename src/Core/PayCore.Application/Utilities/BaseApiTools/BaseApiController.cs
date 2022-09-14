@@ -18,7 +18,7 @@ public  abstract class BaseApiController<TEntity, TModel> : BaseApiResponse
     [HttpGet]
     public IActionResult GetAll()
     {
-        return ApiResponse<IEnumerable<TModel>>(_businessService.GetAll());
+        return ApiResponse<TModel>(_businessService.GetAll());
     }
 
     [HttpGet("{id}")]

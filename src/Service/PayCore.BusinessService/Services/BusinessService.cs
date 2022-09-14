@@ -26,7 +26,7 @@ namespace PayCore.BusinessService.Services
             var rawData = _unitOfWork.Session.GetById(id);
             return _mapper.Map<TModel>(rawData);
         }
-        public TModel GetById(int id)
+        public virtual TModel GetById(int id)
         {
             var rawData = _unitOfWork.Session.GetById(id);
             return _mapper.Map<TModel>(rawData);
@@ -37,13 +37,13 @@ namespace PayCore.BusinessService.Services
             return _mapper.Map<List<TModel>>(rawData);
         }
 
-        public TModel GetFirstOrDefault(Expression<Func<TEntity, bool>> filter)
+        public virtual TModel GetFirstOrDefault(Expression<Func<TEntity, bool>> filter)
         {
             var rawData = _unitOfWork.Session.GetFirstOrDefault(filter);
             return _mapper.Map<TModel>(rawData);
         }
 
-        public IEnumerable<TModel> Where(Expression<Func<TEntity, bool>> filter)
+        public virtual IEnumerable<TModel> Where(Expression<Func<TEntity, bool>> filter)
         {
             var rawData = _unitOfWork.Session.Where(filter);
             return _mapper.Map<List<TModel>>(rawData);

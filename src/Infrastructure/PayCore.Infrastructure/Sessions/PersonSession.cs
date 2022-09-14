@@ -2,11 +2,12 @@
 using PayCore.Application.Interfaces.Sessions;
 using PayCore.Domain.Entities;
 
+
 namespace PayCore.Infrastructure.Sessions
 {
-    public class ContainerSession : MapperSession<Container>, IContainerSession
+    public class PersonSession : MapperSession<PersonEntity>, IPersonSession
     {
-        public ContainerSession(ISession session) : base(session)
+        public PersonSession(ISession session) : base(session)
         {
         }
     }

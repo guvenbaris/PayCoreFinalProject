@@ -2,7 +2,7 @@
 
 namespace PayCore.Application.Interfaces.Sessions
 {
-    public  interface IContainerSession : IMapperSession<Container>
+    public  interface IManagerSession : IMapperSession<ManagerEntity>
     {
     }
 }

@@ -45,7 +45,9 @@ namespace PayCore.Infrastructure.DependencyContainer
             services.AddScoped<IMapperSession<BaseEntity>, MapperSession<BaseEntity>>();
             services.AddScoped(typeof(IUnitOfWork<,>), typeof(UnitOfWork<,>));
 
-            services.AddScoped<IContainerSession, ContainerSession>();
+            services.AddScoped<IManagerSession, ManagerSession>();
+            services.AddScoped<IUserSession, UserSession>();
+            services.AddScoped<IApartmentSession, ApartmentSession>();
             return services;
         }
     }

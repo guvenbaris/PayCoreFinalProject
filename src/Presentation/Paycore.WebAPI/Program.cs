@@ -1,6 +1,5 @@
 using PayCore.Application.DependencyContainer;
 using PayCore.BusinessService.DependencyContainer;
-using PayCore.Domain.Entities;
 using PayCore.Infrastructure.DependencyContainer;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +12,7 @@ builder.Services.AddSwaggerGen();
 #region Custom Services
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
-builder.Services.AddBusinessServices();
+builder.Services.AddBusinessServices(builder.Configuration);
 #endregion
 
 var app = builder.Build();
