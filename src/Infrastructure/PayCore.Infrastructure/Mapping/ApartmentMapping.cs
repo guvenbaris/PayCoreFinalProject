@@ -23,12 +23,14 @@ namespace PayCore.Infrastructure.Mapping
                     x.Column("which_block");
                     x.Length(10);
                     x.Type(NHibernateUtil.String);
+                    x.NotNullable(true);
                 });
             Property(x => x.AparmentStatu,
                 x =>
                 {
                     x.Column("apartment_statu");
                     x.Type(NHibernateUtil.Boolean);
+                    x.NotNullable(true);
                 });
             Property(x => x.ApartmentType,
                 x =>
@@ -36,12 +38,14 @@ namespace PayCore.Infrastructure.Mapping
                     x.Column("apartment_type");
                     x.Length(3);
                     x.Type(NHibernateUtil.String);
+                    x.NotNullable(true);
                 });
             Property(x => x.FloorLocation,
                 x =>
                 {
                     x.Column("floor_location");
                     x.Type(NHibernateUtil.Int32);
+                    x.NotNullable(true);
 
                 });
             Property(x => x.ApartmentNumber,
@@ -49,18 +53,21 @@ namespace PayCore.Infrastructure.Mapping
                 {
                     x.Column("apartment_number");
                     x.Type(NHibernateUtil.Int32);
+                    x.NotNullable(true);
                 });
             Property(x => x.PersonId,
                 x =>
                 {
                     x.Column("person_id");
                     x.Type(NHibernateUtil.Int64);
+                    x.NotNullable(true);
                 });
             Property(x => x.IsDeleted,
                 x =>
                 {
                     x.Column("is_deleted");
                     x.Type(NHibernateUtil.Boolean);
+                    x.NotNullable(true);
                 });
         }
     }

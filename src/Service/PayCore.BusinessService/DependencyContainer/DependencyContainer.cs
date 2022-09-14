@@ -17,6 +17,7 @@ namespace PayCore.BusinessService.DependencyContainer
             services.AddScoped<IManagerService, ManagerService>();
             services.AddScoped<IApartmentService, ApartmentService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPersonService, PersonService>();
 
             services.AddSingleton<ICacheService, CacheService>();
 

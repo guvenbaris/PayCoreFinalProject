@@ -54,6 +54,7 @@ namespace PayCore.Infrastructure.Mapping
             Property(b => b.Email, 
                 x =>
                 {
+                    x.Column("email");
                     x.Length(150);
                     x.Type(NHibernateUtil.String);
                 });
@@ -67,7 +68,8 @@ namespace PayCore.Infrastructure.Mapping
             Property(b => b.UserName,
                 x =>
                 {
-                    x.Length(150);
+                    x.Length(50);
+                    x.Column("user_name");
                     x.Type(NHibernateUtil.String);
                     x.NotNullable(true);
                 });
@@ -75,6 +77,7 @@ namespace PayCore.Infrastructure.Mapping
                 x =>
                 {
                     x.Length(150);
+                    x.Column("password");
                     x.Type(NHibernateUtil.String);
                     x.NotNullable(true);
                 });
@@ -83,6 +86,7 @@ namespace PayCore.Infrastructure.Mapping
                 x =>
                 {
                     x.Length(50);
+                    x.Column("role");
                     x.Type(NHibernateUtil.String);
                     x.NotNullable(true);
                 });
@@ -90,6 +94,7 @@ namespace PayCore.Infrastructure.Mapping
             Property(b => b.LastActivity, 
                 x =>
                 {
+                    x.Column("last_activity_time");
                     x.Type(NHibernateUtil.DateTime);
                     x.NotNullable(true);
                 });
