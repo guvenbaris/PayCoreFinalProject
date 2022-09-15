@@ -11,6 +11,7 @@
   </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="FluentNHibernate" Version="3.1.0" />
+		<PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
 		<PackageReference Include="NHibernate" Version="5.3.12" />
 		<PackageReference Include="Npgsql" Version="6.0.6" />
 		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />

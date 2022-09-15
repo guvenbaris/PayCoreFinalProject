@@ -24,17 +24,16 @@ public class UnitOfWork<TEntity,TModel> : IUnitOfWork<TEntity,TModel>
             this.Session.BeginTransaction();
             this.Session.Add(entity);
             this.Session.Commit();
-            this.Session.CloseTransaction();
 
             return entity;
         }
         catch (Exception)
         {
+            this.Session.Rollback();
             throw new CustomException("Nhibernate Save Error.");
         }
         finally
         {
-            this.Session.Rollback();
             this.Session.CloseTransaction();
         }
     }
@@ -46,17 +45,16 @@ public class UnitOfWork<TEntity,TModel> : IUnitOfWork<TEntity,TModel>
             this.Session.BeginTransaction();
             this.Session.Update(entity);
             this.Session.Commit();
-            this.Session.CloseTransaction();
 
             return entity;
         }
         catch (Exception)
         {
+            this.Session.Rollback();
             throw new CustomException("Nhibernate Update Error.");
         }
         finally
         {
-            this.Session.Rollback();
             this.Session.CloseTransaction();
         }
     }
@@ -66,20 +64,18 @@ public class UnitOfWork<TEntity,TModel> : IUnitOfWork<TEntity,TModel>
         try
         {
             this.Session.BeginTransaction();
-
             this.Session.Update(entity);
             this.Session.Commit();
-            this.Session.CloseTransaction();
 
             return entity;
         }
         catch (Exception)
         {
+            this.Session.Rollback();
             throw new CustomException("Nhibernate Delete Error.");
         }
         finally
         {
-            this.Session.Rollback();
             this.Session.CloseTransaction();
         }
     }

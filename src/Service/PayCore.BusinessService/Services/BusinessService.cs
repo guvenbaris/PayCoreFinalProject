@@ -51,7 +51,7 @@ namespace PayCore.BusinessService.Services
 
         public virtual IDataResult Add(TModel model)
         {
-            var addedEntity = _unitOfWork.Update(_mapper.Map<TEntity>(model));
+            var addedEntity = _unitOfWork.Add(_mapper.Map<TEntity>(model));
             if (addedEntity is not null)
             {
                 return new SuccessDataResult { Data = _mapper.Map<TModel>(addedEntity) };

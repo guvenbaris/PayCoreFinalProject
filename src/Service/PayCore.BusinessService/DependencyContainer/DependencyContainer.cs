@@ -15,6 +15,7 @@ namespace PayCore.BusinessService.DependencyContainer
         public static IServiceCollection AddBusinessServices(this IServiceCollection services,IConfiguration configuration)
         {
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPersonService, PersonService>();
 
             services.AddSingleton<ICacheService, CacheService>();
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PayCore.Application.Interfaces.Services;
 using PayCore.Application.Models;
+using PayCore.Application.Utilities.Results;
 using PayCore.Domain.Entities;
 
 namespace PayCore.Application.Utilities.BaseApiTools;

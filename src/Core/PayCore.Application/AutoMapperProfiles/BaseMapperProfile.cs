@@ -9,6 +9,7 @@ namespace PayCore.Application.AutoMapperProfiles
         public BaseMapperProfile()
         {
             CreateMap<UserEntity, UserModel>().IncludeBase<BaseEntity, BaseModel>().ReverseMap();
+            CreateMap<PersonEntity, PersonModel>().IncludeBase<BaseEntity, BaseModel>().ReverseMap();
             CreateMap<BaseEntity, BaseModel>().ReverseMap();
         }
     }
