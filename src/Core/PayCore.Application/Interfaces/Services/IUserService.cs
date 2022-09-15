@@ -5,6 +5,5 @@ namespace PayCore.Application.Interfaces.Services
 {
     public interface IUserService : IBusinessService<UserEntity, UserModel>
     {
-        IEnumerable<UserModel> GetAll();
     }
 }

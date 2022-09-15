@@ -2,12 +2,10 @@
 using Microsoft.IdentityModel.Tokens;
 using NHibernate;
 using PayCore.Application.Interfaces.Jwt;
-using PayCore.Application.Interfaces.Sessions;
 using PayCore.Application.Utilities.Appsettings;
 using PayCore.Application.Utilities.Results;
 using PayCore.Domain.Entities;
 using PayCore.Domain.Jwt;
-using PayCore.Infrastructure.Sessions;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -16,75 +14,30 @@ namespace PayCore.BusinessService.Services
 {
     public class TokenService : ITokenService
     {
-        private readonly IMapperSession<PersonEntity> _mapperSession;
         private readonly IOptions<PayCoreAppSettings> _payCoreAppSettings;
         public TokenService(ISession session, IOptions<PayCoreAppSettings> payCoreAppSettings)
         {
-            _mapperSession = new MapperSession<PersonEntity>(session);
             _payCoreAppSettings = payCoreAppSettings;
         }
 
-        public IDataResult GenerateToken(TokenRequest tokenRequest)
+        public IDataResult GenerateToken(UserEntity user)
         {
-            try
+            var now = DateTime.UtcNow;
+            string token = GetToken(user,now);
+
+            TokenResponse tokenResponse = new TokenResponse
             {
-                if (tokenRequest is null)
-                {
-                    return new DataResult<TokenResponse> { ErrorMessage = "Please enter valid informations." };
-                }
+                AccessToken = token,
+                Expiration = now.AddMinutes(_payCoreAppSettings.Value.JwtSettings.TokenExpirationMinute),
+                Role = user.Role,
+                SessionTimeInSecond = _payCoreAppSettings.Value.JwtSettings.TokenExpirationMinute * 60
+            };
 
-                var account = _mapperSession.Where(x => x.UserName.Equals(tokenRequest.UserName)).FirstOrDefault();
-                if (account is null)
-                {
-                    return new DataResult<TokenResponse> { ErrorMessage = "Please validate your informations that you provided." };
-                }
-
-                if (!account.Password.Equals(tokenRequest.Password))
-                {
-                    return new DataResult<TokenResponse> { ErrorMessage = "Please validate your informations that you provided." };
-                }
-
-                DateTime now = DateTime.UtcNow;
-                try
-                {
-                    account.LastActivity = now;
-
-                    _mapperSession.BeginTransaction();
-                    _mapperSession.Update(account);
-                    _mapperSession.Commit();
-                    _mapperSession.CloseTransaction();
-                }
-                catch (Exception ex)
-                {
-                    _mapperSession.Rollback();
-                    _mapperSession.CloseTransaction();
-                }
-                string token = GetToken(account, now);
-
-            
-               account.LastActivity = now;
-
-                   
-
-                TokenResponse tokenResponse = new TokenResponse
-                {
-                    AccessToken = token,
-                    Expiration = now.AddMinutes(_payCoreAppSettings.Value.JwtSettings.TokenExpirationMinute),
-                    Role = account.Role,
-                    UserName = account.UserName,
-                    SessionTimeInSecond = _payCoreAppSettings.Value.JwtSettings.TokenExpirationMinute * 60
-                };
-
-                return new SuccessDataResult<TokenResponse> { Data = tokenResponse };
-            }
-            catch (Exception ex)
-            {
-                return new ErrorDataResult { ErrorMessage = "GenerateToken Error" };
-            }
+            return new SuccessDataResult<TokenResponse> { Data = tokenResponse };
         }
-        private string GetToken(PersonEntity person, DateTime date)
+        private string GetToken(UserEntity user, DateTime date)
         {
-            Claim[] claims = GetClaims(person);
+            Claim[] claims = GetClaims(user);
             byte[] secret = Encoding.ASCII.GetBytes(_payCoreAppSettings.Value.JwtSettings.Key);
 
             var shouldAddAudienceClaim = string.IsNullOrWhiteSpace(claims?.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Aud)?.Value);
@@ -100,15 +53,14 @@ namespace PayCore.BusinessService.Services
 
             return accessToken;
         }
-        private Claim[] GetClaims(PersonEntity person)
+        private Claim[] GetClaims(UserEntity user)
         {
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, person.Id.ToString()),
-                new Claim(ClaimTypes.Name, person.UserName),
-                new Claim(ClaimTypes.Role, person.Role),
-                new Claim("AccountId", person.Id.ToString()),
-                new Claim("Email",person.Email)
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Role, user.Role),
+                new Claim("AccountId", user.Id.ToString()),
+                new Claim("Email",user.Email)
             };
 
             return claims;

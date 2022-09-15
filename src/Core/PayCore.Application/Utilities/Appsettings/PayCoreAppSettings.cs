@@ -5,6 +5,7 @@ namespace PayCore.Application.Utilities.Appsettings
     {
         public RedisSettings RedisSettings { get; set; }
         public JwtSettings JwtSettings { get; set; }
+        public HashSettings HashSettings { get; set; }
 
     }
     public class RedisSettings
@@ -21,5 +22,9 @@ namespace PayCore.Application.Utilities.Appsettings
         public string Issuer { get; set; }
         public string Key { get; set; }
         public  int TokenExpirationMinute { get; set; }
+    }
+    public class HashSettings
+    {
+        public string Salt { get; set; }
     }
 }

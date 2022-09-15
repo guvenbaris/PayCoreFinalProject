@@ -9,55 +9,58 @@ public class UserMapping : ClassMapping<UserEntity>
 {
     public UserMapping()
     {
-        Table("User");
-        Id(x => x.Id,
-            x =>
-            {
-                x.Type(NHibernateUtil.Int64);
-                x.Column("id");
-                x.UnsavedValue(0);
-                x.Generator(Generators.Increment);
-            });
-        Property(x => x.FirstName,
-            x =>
-            {
-                x.Column("first_name");
-                x.Length(50);
-                x.Type(NHibernateUtil.String);
-            });
-        Property(x => x.LastName,
-            x =>
-            {
-                x.Column("last_name");
-                x.Length(50);
-                x.Type(NHibernateUtil.String);
-            });
-        Property(x => x.IdentityNumber,
-            x =>
-            {
-                x.Column("identity_number");
-                x.Length(11);
-                x.Type(NHibernateUtil.String);
-            });
-        Property(x => x.PhoneNumber,
-            x =>
-            {
-                x.Column("phone_number");
-                x.Length(12);
-                x.Type(NHibernateUtil.String);
-            });
-        Property(x => x.LicencePlateNumber,
-            x =>
-            {
-                x.Column("licence_plate_number");
-                x.Length(8);
-                x.Type(NHibernateUtil.String);
-            });
-        Property(x => x.IsDeleted,
-            x =>
-            {
-                x.Column("is_deleted");
-                x.Type(NHibernateUtil.Boolean);
-            });
+        Table("account");
+
+        Id(x => x.Id, x =>
+        {
+            x.Type(NHibernateUtil.Int64);
+            x.Column("Id");
+            x.UnsavedValue(0);
+            x.Generator(Generators.Increment);
+        });
+
+        Property(b => b.LockoutEnabled, x =>
+        {
+            x.Type(NHibernateUtil.Boolean);
+            x.Column("lockout_enabled");
+            x.NotNullable(true);
+        });
+
+        Property(b => b.Email, x =>
+        {
+            x.Length(150);
+            x.Type(NHibernateUtil.String);
+            x.Column("email");
+            x.NotNullable(true);
+        });
+
+        Property(b => b.AccessFailedCount, x =>
+        {
+            x.Type(NHibernateUtil.Int32);
+            x.Column("access_failed_count");
+        });
+
+        Property(b => b.Password, x =>
+        {
+            x.Length(150);
+            x.Type(NHibernateUtil.String);
+            x.NotNullable(true);
+            x.Column("password");
+        });
+
+        Property(b => b.Role, x =>
+        {
+            x.Length(50);
+            x.Type(NHibernateUtil.String);
+            x.NotNullable(true);
+            x.Column("role");
+        });
+
+        Property(b => b.LastActivity, x =>
+        {
+            x.Type(NHibernateUtil.DateTime);
+            x.NotNullable(true);
+            x.Column("last_activity");
+        });
     }
 }
