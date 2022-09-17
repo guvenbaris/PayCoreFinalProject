@@ -1,10 +1,10 @@
-﻿using PayCore.Application.Utilities.Results;
-using PayCore.Domain.Entities;
+﻿using PayCore.Application.Models;
+using PayCore.Application.Utilities.Results;
 
 namespace PayCore.Application.Interfaces.Jwt
 {
     public interface ITokenService
     {
-        IDataResult GenerateToken(UserEntity user);
+        IDataResult GenerateToken(UserModel user);
     }
 }

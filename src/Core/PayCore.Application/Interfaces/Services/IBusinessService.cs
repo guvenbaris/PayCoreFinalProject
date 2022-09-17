@@ -11,11 +11,11 @@ namespace PayCore.Application.Interfaces.Services
         where TModel : BaseModel
     {
         IEnumerable<TModel> GetAll();
-        TModel GetById(int id);
+        TModel GetById(long id);
         IEnumerable<TModel> Where(Expression<Func<TEntity, bool>> filter);
         TModel GetFirstOrDefault(Expression<Func<TEntity, bool>> filter);
         IDataResult Add(TModel model);
         IDataResult Update(TModel model);
-        IDataResult Delete(int id);
+        IDataResult Delete(long id);
     }
 }

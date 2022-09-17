@@ -9,13 +9,12 @@ public class UserMapping : ClassMapping<UserEntity>
 {
     public UserMapping()
     {
-        Table("account");
+        Table("user");
 
         Id(x => x.Id, x =>
         {
             x.Type(NHibernateUtil.Int64);
             x.Column("Id");
-            x.UnsavedValue(0);
             x.Generator(Generators.Increment);
         });
 
@@ -25,7 +24,19 @@ public class UserMapping : ClassMapping<UserEntity>
             x.Column("lockout_enabled");
             x.NotNullable(true);
         });
-
+        Property(b => b.FirstName, x =>
+        {
+            x.Type(NHibernateUtil.String);
+            x.Column("first_name");
+            x.NotNullable(true);
+        });
+        Property(b => b.LastName, x =>
+        {
+            x.Length(150);
+            x.Type(NHibernateUtil.String);
+            x.Column("last_name");
+            x.NotNullable(true);
+        });
         Property(b => b.Email, x =>
         {
             x.Length(150);
@@ -42,12 +53,10 @@ public class UserMapping : ClassMapping<UserEntity>
 
         Property(b => b.Password, x =>
         {
-            x.Length(150);
             x.Type(NHibernateUtil.String);
             x.NotNullable(true);
             x.Column("password");
         });
-
         Property(b => b.Role, x =>
         {
             x.Length(50);
@@ -55,7 +64,6 @@ public class UserMapping : ClassMapping<UserEntity>
             x.NotNullable(true);
             x.Column("role");
         });
-
         Property(b => b.LastActivity, x =>
         {
             x.Type(NHibernateUtil.DateTime);

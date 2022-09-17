@@ -10,7 +10,7 @@ namespace PayCore.Infrastructure.UnitOfWork;
 public class UnitOfWork<TEntity,TModel> : IUnitOfWork<TEntity,TModel>
     where TEntity : BaseEntity where TModel : BaseModel
 {
-    public IMapperSession<TEntity> Session{ get; }
+    public IMapperSession<TEntity> Session { get; }
 
     public UnitOfWork(NHibernate.ISession session)
     {
@@ -79,5 +79,4 @@ public class UnitOfWork<TEntity,TModel> : IUnitOfWork<TEntity,TModel>
             this.Session.CloseTransaction();
         }
     }
-
 }

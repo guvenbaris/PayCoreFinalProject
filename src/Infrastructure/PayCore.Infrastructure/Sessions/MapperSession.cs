@@ -49,10 +49,11 @@ namespace PayCore.Infrastructure.Sessions
 
         public virtual void Update(T entity)
         {
-            _session.Update(entity);
+            _session.Merge(entity);
+            //_session.Update(entity);
         }
 
-        public T GetById(int id)
+        public T GetById(long id)
         {
             return _session.Get<T>(id);
         }

@@ -11,10 +11,6 @@ namespace PayCore.BusinessService.Services
         public UserService(IUnitOfWork<UserEntity, UserModel> unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
         }
-        public override IEnumerable<UserModel> GetAll()
-        {
-            return base.GetAll();
-        }
     }
 
 }

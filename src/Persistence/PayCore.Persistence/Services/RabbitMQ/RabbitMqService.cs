@@ -1,7 +1,7 @@
 ﻿using PayCore.Application.Interfaces.RabbitMQ;
 using RabbitMQ.Client;
 
-namespace PayCore.Persistence.RabbitMQ
+namespace PayCore.Persistence.Services.RabbitMQ
 {
     public class RabbitMqService : IRabbitMqService
     {

@@ -17,29 +17,29 @@ public  abstract class BaseApiController<TEntity, TModel> : BaseApiResponse
     }
 
     [HttpGet]
-    public IActionResult GetAll()
+    public virtual IActionResult GetAll()
     {
         return ApiResponse<TModel>(_businessService.GetAll());
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetById(int id)
+    public virtual IActionResult GetById(int id)
     {
         return ApiResponse<TModel>(_businessService.GetById(id));
     }
 
     [HttpPost]
-    public IActionResult Add([FromBody] TModel model)
+    public virtual IActionResult Add([FromBody] TModel model)
     {
         return ApiResponse(_businessService.Add(model));
     }
     [HttpPut]
-    public IActionResult Update([FromBody] TModel model)
+    public virtual IActionResult Update([FromBody] TModel model)
     {
         return ApiResponse(_businessService.Update(model));
     }
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public virtual IActionResult Delete(int id)
     {
         return ApiResponse(_businessService.Delete(id));
     }

@@ -1,102 +1,118 @@
 ﻿using AutoMapper;
-using Microsoft.Extensions.Options;
-using PayCore.Application.Constant.RabbitMQ;
+using FluentValidation;
 using PayCore.Application.Dtos.Auth;
 using PayCore.Application.Dtos.Email;
+using PayCore.Application.Enums;
 using PayCore.Application.Exceptions;
 using PayCore.Application.Interfaces.Jwt;
 using PayCore.Application.Interfaces.RabbitMQ;
 using PayCore.Application.Interfaces.Services;
 using PayCore.Application.Interfaces.UnitOfWork;
 using PayCore.Application.Models;
-using PayCore.Application.Utilities.Appsettings;
 using PayCore.Application.Utilities.Hash;
 using PayCore.Application.Utilities.Results;
 using PayCore.Application.Validations.AuthValidation;
+using PayCore.Application.ViewModel.User;
 using PayCore.Domain.Entities;
-using System.Text;
 
 namespace PayCore.BusinessService.Services
 {
-    public class AuthService : BusinessService<UserEntity, UserModel>, IUserService,IAuthService
+    public class AuthService : IAuthService
     {
         private readonly IPublisherService _publisherService;
         private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
-        private readonly IOptions<PayCoreAppSettings> _payCoreAppSettings;
+        private readonly IUserService _userService;
 
-        public AuthService(IUnitOfWork<UserEntity, UserModel> unitOfWork, IMapper mapper, IPublisherService publisherService, ITokenService tokenService,IOptions<PayCoreAppSettings> payCoreAppSettings) 
-            : base(unitOfWork, mapper)
+        public AuthService(IMapper mapper, IPublisherService publisherService, ITokenService tokenService, IUserService userService)
         {
-   
             _publisherService = publisherService;
             _tokenService = tokenService;
             _mapper = mapper;
-            _payCoreAppSettings = payCoreAppSettings;
+            _userService = userService;
         }
 
-        public async Task<IDataResult> Login(LoginDto loginDto)
+        public IDataResult Login(LoginDto loginDto)
         {
             var loginValidator = new LoginDtoValidator();
-            await loginValidator.ValidateAsync(loginDto);
+            loginValidator.ValidateAndThrow(loginDto);
 
-            var userFind = base.GetFirstOrDefault(x=>x.Email == loginDto.Email);
+            var userFind = _userService.GetFirstOrDefault(x=>x.Email == loginDto.Email);
 
             if (userFind == null)
                 return new ErrorDataResult { ErrorMessage = "Please validate your informations that you provided." };
 
-            byte[] passwordSalt = Encoding.UTF8.GetBytes(_payCoreAppSettings.Value.HashSettings.Salt);
-            byte[] passwordHash = Encoding.UTF8.GetBytes(userFind.Password);
+            var existingPassword =  HashingHelper.CreatePasswordHash(loginDto.Password,loginDto.Email);
 
-            var checkPassword = HashingHelper.VerifyPasswordHash(loginDto.Password, passwordHash, passwordSalt);
+            var verifyPassword =  HashingHelper.CreatePasswordHash(loginDto.Password, loginDto.Email);
 
-            if (!checkPassword)
-            {
-                var email = new EmailToSend
-                {
-                    To = userFind.Email,
-                    Subject = "Welcome",
-                    Body = "Hope you have a good time on our site",
-                };
-                _publisherService.Publish(email, RabbitMqConstants.MailSendQueue);
-
+            if (!HashingHelper.VerifyPasswordHash(verifyPassword, existingPassword))
                 return new ErrorDataResult { ErrorMessage = "Please validate your informations that you provided." };
-            }
 
-            var userEntity = _mapper.Map<UserEntity>(userFind);
-            userEntity.LastActivity = DateTime.Now;
+            var accessControl = AccessRightControl(userFind);
 
-            var updateResult = base.Update(_mapper.Map<UserModel>(userEntity));
+            if (!accessControl.IsSuccess)
+                return accessControl;
 
-            if (!updateResult.IsSuccess)
-                return updateResult;
-
-            return _tokenService.GenerateToken(userEntity);
+            return _tokenService.GenerateToken(userFind);
         }
 
-        public async Task<IDataResult> Register(RegisterDto registerDto)
+        public IDataResult Register(RegisterDto registerDto)
         {
             var validator = new RegisterDtoValidator();
-            await validator.ValidateAsync(registerDto);
+            validator.ValidateAndThrow(registerDto);
 
             var user = new UserModel
             {
                 Email = registerDto.Email,
-                Role = "member"
+                FirstName = registerDto.FirstName,
+                LastName  = registerDto.LastName,
             };
 
-            var emailChecker = GetFirstOrDefault(x=>x.Email == registerDto.Email);
+            user.Role = "member";
+            user.LastActivity = DateTime.UtcNow;
+                  
+            var emailChecker = _userService.GetFirstOrDefault(x=>x.Email == registerDto.Email);
 
             if (emailChecker is not null)
                 throw new CustomException("Email already exists");
 
-            byte[] passwordHash;
-            byte[] passwordSalt = Encoding.UTF8.GetBytes(_payCoreAppSettings.Value.HashSettings.Salt);
-            HashingHelper.CreatePasswordHash(registerDto.Password, out passwordHash,passwordSalt);
+            user.Password = HashingHelper.CreatePasswordHash(registerDto.Password,registerDto.Email);
 
-            user.Password = Encoding.UTF8.GetString(passwordHash, 0, passwordHash.Length);
+            var userAdded = _userService.Add(user);
 
-            return base.Add(user);
+            if (!userAdded.IsSuccess)
+                return userAdded;
+
+            return new SuccessDataResult { Data = _mapper.Map<UserViewModel>(userAdded.Data) };
+        }
+        private IDataResult AccessRightControl(UserModel userFind)
+        {
+            userFind.AccessFailedCount += 1;
+
+            var updateResult = _userService.Update(userFind);
+            if (!updateResult.IsSuccess)
+                return updateResult;
+
+            if (userFind.AccessFailedCount == 3)
+            {
+                userFind.LockoutEnabled = true;
+                userFind.LastActivity = DateTime.UtcNow;
+
+                var dataResult = _userService.Update(userFind);
+                if (!dataResult.IsSuccess)
+                    return dataResult;
+
+                var email = new EmailToSend
+                {
+                    To = userFind.Email,
+                    Subject = "Account Blocked",
+                    Body = "Your account has been blocked for logging in 3 times wrong in a row."
+                };
+                _publisherService.Publish(email, RabbitMqQueue.EmailSenderQueue.ToString());
+                return new ErrorDataResult { ErrorMessage = "Your account has been blocked" };
+            }
+            return new SuccessDataResult();
         }
     }
 }

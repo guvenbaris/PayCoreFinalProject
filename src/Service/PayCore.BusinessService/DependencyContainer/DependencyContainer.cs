@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using PayCore.Application.Interfaces.Cache;
+using PayCore.Application.Interfaces.Jwt;
 using PayCore.Application.Interfaces.Services;
 using PayCore.BusinessService.Cache;
 using PayCore.BusinessService.Services;
@@ -15,9 +16,12 @@ namespace PayCore.BusinessService.DependencyContainer
         public static IServiceCollection AddBusinessServices(this IServiceCollection services,IConfiguration configuration)
         {
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IPersonService, PersonService>();
-
-            services.AddSingleton<ICacheService, CacheService>();
+            services.AddScoped<ICacheService, CacheService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IOfferService, OfferService>();
 
             services.AddAuthentication(x =>
             {

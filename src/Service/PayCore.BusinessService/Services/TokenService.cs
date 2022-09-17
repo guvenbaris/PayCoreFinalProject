@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using NHibernate;
 using PayCore.Application.Interfaces.Jwt;
+using PayCore.Application.Models;
 using PayCore.Application.Utilities.Appsettings;
 using PayCore.Application.Utilities.Results;
 using PayCore.Domain.Entities;
@@ -15,12 +16,12 @@ namespace PayCore.BusinessService.Services
     public class TokenService : ITokenService
     {
         private readonly IOptions<PayCoreAppSettings> _payCoreAppSettings;
-        public TokenService(ISession session, IOptions<PayCoreAppSettings> payCoreAppSettings)
+        public TokenService(IOptions<PayCoreAppSettings> payCoreAppSettings)
         {
             _payCoreAppSettings = payCoreAppSettings;
         }
 
-        public IDataResult GenerateToken(UserEntity user)
+        public IDataResult GenerateToken(UserModel user)
         {
             var now = DateTime.UtcNow;
             string token = GetToken(user,now);
@@ -33,9 +34,10 @@ namespace PayCore.BusinessService.Services
                 SessionTimeInSecond = _payCoreAppSettings.Value.JwtSettings.TokenExpirationMinute * 60
             };
 
-            return new SuccessDataResult<TokenResponse> { Data = tokenResponse };
+            var ddeneme = new SuccessDataResult<TokenResponse> { Data = tokenResponse };
+            return ddeneme;
         }
-        private string GetToken(UserEntity user, DateTime date)
+        private string GetToken(UserModel user, DateTime date)
         {
             Claim[] claims = GetClaims(user);
             byte[] secret = Encoding.ASCII.GetBytes(_payCoreAppSettings.Value.JwtSettings.Key);
@@ -53,7 +55,7 @@ namespace PayCore.BusinessService.Services
 
             return accessToken;
         }
-        private Claim[] GetClaims(UserEntity user)
+        private Claim[] GetClaims(UserModel user)
         {
             var claims = new[]
             {

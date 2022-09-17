@@ -8,6 +8,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.9" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.5" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
 		<PackageReference Include="FluentNHibernate" Version="3.1.0" />
@@ -19,11 +20,8 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\Core\PayCore.Application\PayCore.Application.csproj" />
 		<ProjectReference Include="..\..\Infrastructure\PayCore.Infrastructure\PayCore.Infrastructure.csproj" />
+		<ProjectReference Include="..\..\Persistence\PayCore.Persistence\PayCore.Persistence.csproj" />
 		<ProjectReference Include="..\..\Service\PayCore.BusinessService\PayCore.BusinessService.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Controllers\" />
 	</ItemGroup>
 
 </Project>

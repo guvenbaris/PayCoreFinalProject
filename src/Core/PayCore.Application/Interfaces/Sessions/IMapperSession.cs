@@ -13,7 +13,7 @@ namespace PayCore.Application.Interfaces.Sessions
         void Update(T entity);
         void Delete(T entity);
         IQueryable<T> Queries { get; }
-        T GetById(int id);
+        T GetById(long id);
         IEnumerable<T> Where(Expression<Func<T, bool>> filter);
         T GetFirstOrDefault(Expression<Func<T, bool>> filter);
     }

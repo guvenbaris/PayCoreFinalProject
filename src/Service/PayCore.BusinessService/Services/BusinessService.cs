@@ -20,13 +20,7 @@ namespace PayCore.BusinessService.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-
-        public virtual TModel Get(int id)
-        {
-            var rawData = _unitOfWork.Session.GetById(id);
-            return _mapper.Map<TModel>(rawData);
-        }
-        public virtual TModel GetById(int id)
+        public virtual TModel GetById(long id)
         {
             var rawData = _unitOfWork.Session.GetById(id);
             return _mapper.Map<TModel>(rawData);
@@ -34,7 +28,8 @@ namespace PayCore.BusinessService.Services
         public virtual IEnumerable<TModel> GetAll()
         {
             var rawData = _unitOfWork.Session.Queries.ToList();
-            return _mapper.Map<List<TModel>>(rawData);
+            var data = _mapper.Map<List<TModel>>(rawData);
+            return data;
         }
 
         public virtual TModel GetFirstOrDefault(Expression<Func<TEntity, bool>> filter)
@@ -45,13 +40,14 @@ namespace PayCore.BusinessService.Services
 
         public virtual IEnumerable<TModel> Where(Expression<Func<TEntity, bool>> filter)
         {
-            var rawData = _unitOfWork.Session.Where(filter);
+            var rawData = _unitOfWork.Session.Where(filter).ToList();
             return _mapper.Map<List<TModel>>(rawData);
         }
 
         public virtual IDataResult Add(TModel model)
         {
-            var addedEntity = _unitOfWork.Add(_mapper.Map<TEntity>(model));
+            var deneme = _mapper.Map<TEntity>(model);
+            var addedEntity = _unitOfWork.Add(deneme);
             if (addedEntity is not null)
             {
                 return new SuccessDataResult { Data = _mapper.Map<TModel>(addedEntity) };
@@ -72,11 +68,12 @@ namespace PayCore.BusinessService.Services
             return new ErrorDataResult { ErrorMessage = "Entity didn't update." };
         }
 
-        public virtual IDataResult Delete(int id)
+        public virtual IDataResult Delete(long id)
         {
             var deletedEntity = _unitOfWork.Session.GetById(id);
             if (deletedEntity is not null)
             {
+                deletedEntity.IsDeleted = true;
                 _unitOfWork.Update((TEntity)deletedEntity);
                 return new SuccessDataResult { Data = _mapper.Map<TModel>(deletedEntity) };
             }

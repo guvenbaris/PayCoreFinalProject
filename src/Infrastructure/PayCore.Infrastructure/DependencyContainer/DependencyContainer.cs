@@ -7,7 +7,6 @@ using PayCore.Infrastructure.Sessions;
 using NHibernate.Cfg;
 using NHibernate.Cfg.MappingSchema;
 using NHibernate.Dialect;
-using NHibernate.Driver;
 using NHibernate.Mapping.ByCode;
 using PayCore.Infrastructure.UnitOfWork;
 using PayCore.Application.Utilities.Appsettings;
@@ -29,8 +28,7 @@ namespace PayCore.Infrastructure.DependencyContainer
             var configuration = new Configuration();
             configuration.DataBaseIntegration(c =>
             {
-                c.Driver<SqlClientDriver>();
-                c.Dialect<MsSql2012Dialect>();
+                c.Dialect<PostgreSQLDialect>();
                 c.ConnectionString = connectionString;
                 c.KeywordsAutoImport = Hbm2DDLKeyWords.AutoQuote;
                 c.SchemaAction = SchemaAutoAction.Update;
@@ -46,7 +44,11 @@ namespace PayCore.Infrastructure.DependencyContainer
 
             services.AddScoped<IMapperSession<BaseEntity>, MapperSession<BaseEntity>>();
             services.AddScoped(typeof(IUnitOfWork<,>), typeof(UnitOfWork<,>));
+
             services.AddScoped<IUserSession, UserSession>();
+            services.AddScoped<IProductSession, ProductSession>();
+            services.AddScoped<ICategorySession, CategorySession>();
+            services.AddScoped<IOfferSession, OfferSession>();
 
             return services;
         }
