@@ -46,7 +46,7 @@ namespace PayCore.BusinessService.Services
             return _productService.Update(product);
         }
 
-        public IEnumerable<OfferModel> GetOffersOnUserProducts(long userId)
+        public IEnumerable<OfferModel> GetUserOffersOnProducts(long userId)
         {
             userId = 1;
             var userProducts = _productService.Where(x => x.User.Id == userId);
@@ -55,7 +55,7 @@ namespace PayCore.BusinessService.Services
             return offers;
         }
 
-        public IList<OfferModel> GetUserOffersOnProducts(long userId)
+        public IList<OfferModel> GetUserProductOffers(long userId)
         {
             return base.Where(x=>x.User.Id == userId).ToList();
         }
