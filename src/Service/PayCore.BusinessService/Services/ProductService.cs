@@ -2,7 +2,6 @@
 using FluentValidation;
 using PayCore.Application.Constant.Product;
 using PayCore.Application.Interfaces.Services;
-using PayCore.Application.Interfaces.Sessions;
 using PayCore.Application.Interfaces.UnitOfWork;
 using PayCore.Application.Models;
 using PayCore.Application.Utilities.BusinessRuleEngine;
@@ -15,7 +14,7 @@ namespace PayCore.BusinessService.Services
     public class ProductService : BusinessService<ProductEntity, ProductModel>, IProductService
     {
         private readonly ICategoryService _categoryService;
-        public ProductService(IUnitOfWork<ProductEntity, ProductModel> unitOfWork, IMapper mapper, IProductSession productSession, ICategoryService categoryService) : base(unitOfWork, mapper)
+        public ProductService(IUnitOfWork<ProductEntity, ProductModel> unitOfWork, IMapper mapper, ICategoryService categoryService) : base(unitOfWork, mapper)
         {
             _categoryService = categoryService;
         }
@@ -37,7 +36,7 @@ namespace PayCore.BusinessService.Services
 
         public IDataResult SellTheProduct(long productId, long userId)
         {
-            var product = base.GetFirstOrDefault(x=>x.Id == productId);
+            var product = base.GetById(productId);
 
             if (product is null)
                 return new ErrorDataResult { ErrorMessage = ProductConstant.ProductNotFound};
@@ -68,7 +67,7 @@ namespace PayCore.BusinessService.Services
 
         private IDataResult CheckCategory(ProductModel model)
         {
-            var category = _categoryService.GetFirstOrDefault(x=>x.Id == model.CategoryId);
+            var category = _categoryService.GetById(model.CategoryId!.Value);
 
             if (category is null)
                 return new ErrorDataResult { ErrorMessage = CategoryConstant.CategoryNotFound};

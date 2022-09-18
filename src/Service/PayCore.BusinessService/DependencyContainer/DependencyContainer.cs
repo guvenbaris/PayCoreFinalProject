@@ -7,6 +7,7 @@ using PayCore.Application.Interfaces.Jwt;
 using PayCore.Application.Interfaces.Services;
 using PayCore.BusinessService.Cache;
 using PayCore.BusinessService.Services;
+using StackExchange.Redis;
 using System.Text;
 
 namespace PayCore.BusinessService.DependencyContainer
@@ -15,14 +16,6 @@ namespace PayCore.BusinessService.DependencyContainer
     {
         public static IServiceCollection AddBusinessServices(this IServiceCollection services,IConfiguration configuration)
         {
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ICacheService, CacheService>();
-            services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<ITokenService, TokenService>();
-            services.AddScoped<IProductService, ProductService>();
-            services.AddScoped<ICategoryService, CategoryService>();
-            services.AddScoped<IOfferService, OfferService>();
-
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -43,6 +36,25 @@ namespace PayCore.BusinessService.DependencyContainer
                     ClockSkew = TimeSpan.FromMinutes(2)
                 };
             });
+
+            ConfigurationOptions configurationOptions = new ConfigurationOptions()
+            {
+                EndPoints = {$"{configuration.GetSection("PayCoreAppSettings:RedisSettings").GetValue<string>("Host") }:{configuration.GetSection("PayCoreAppSettings:RedisSettings").GetValue<string>("Port")}"
+            },
+                AllowAdmin = true,
+                ConnectTimeout = 60 * 1000,
+            };
+
+            services.AddStackExchangeRedisCache(options => { options.Configuration = configurationOptions.ToString(); });
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddSingleton<ICacheService, CacheService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IOfferService, OfferService>();
+
 
             return services;
         }

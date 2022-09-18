@@ -14,24 +14,21 @@ public class ProductController : BaseApiController<ProductEntity, ProductModel>
     {
         _productService = productService;
     }
-
     public override IActionResult Add([FromBody] ProductModel model)
     {
-        model.UserId = Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        model.UserId = 1;
+        model.UserId = Convert.ToInt64(User?.FindFirstValue(ClaimTypes.NameIdentifier));
         return ApiResponse(_productService.Add(model));
     }
     public override IActionResult Update([FromBody] ProductModel model)
     {
-        model.UserId = Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        model.UserId = 1;
+        model.UserId = Convert.ToInt64(User?.FindFirstValue(ClaimTypes.NameIdentifier));
         return ApiResponse(_productService.Update(model));
     }
 
     [HttpPut("SellTheProduct")]
     public IActionResult SellTheProduct(long productId)
     {
-        var userId = Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var userId = Convert.ToInt64(User?.FindFirstValue(ClaimTypes.NameIdentifier));
         return ApiResponse(_productService.SellTheProduct(productId,userId));
     }
 }

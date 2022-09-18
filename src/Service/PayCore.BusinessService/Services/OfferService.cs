@@ -16,7 +16,8 @@ namespace PayCore.BusinessService.Services
     public class OfferService : BusinessService<OfferEntity, OfferModel>, IOfferService
     {
         private readonly IProductService _productService;
-        public OfferService(IUnitOfWork<OfferEntity, OfferModel> unitOfWork, IMapper mapper, IProductService productService, IOfferSession offerSession) : base(unitOfWork, mapper)
+
+        public OfferService(IUnitOfWork<OfferEntity, OfferModel> unitOfWork, IMapper mapper, IProductService productService) : base(unitOfWork, mapper)
         {
             _productService = productService;
         }
@@ -33,12 +34,12 @@ namespace PayCore.BusinessService.Services
 
             var result =  base.Add(model);
 
-            return result.IsSuccess ? new SuccessDataResult() : result;
+            return result.IsSuccess ? new SuccessDataResult { Data = result.Data} : result;
         }
 
         public IDataResult ApproveTheOffer(long offerId)
         {
-            var offer = base.GetFirstOrDefault(x=>x.Id == offerId);
+            var offer = base.GetById(offerId);
 
             if (offer is null)
                 return new ErrorDataResult { ErrorMessage = OfferConstant.OfferNotFound}; 
@@ -62,7 +63,7 @@ namespace PayCore.BusinessService.Services
 
             string Ids = String.Join(",", userProducts.Select(x => x.Id!.Value).ToList());
 
-            return base.SearchWithIn("product_id",Ids).ToList();
+            return SearchWithIn("product_id",Ids).ToList();
         }
 
         public IList<OfferModel> GetUserProductOffers(long userId)
@@ -72,7 +73,7 @@ namespace PayCore.BusinessService.Services
 
         public IDataResult RejectTheOffer(long offerId)
         {
-            var offer = base.GetFirstOrDefault(x=>x.Id == offerId);
+            var offer = base.GetById(offerId);
 
             if (offer is null)
                 return new ErrorDataResult { ErrorMessage = OfferConstant.OfferNotFound };
@@ -82,7 +83,7 @@ namespace PayCore.BusinessService.Services
             if (product is null)
                 return new ErrorDataResult { ErrorMessage = ProductConstant.ProductNotFound};
 
-            var result = base.Delete(offerId);
+            var result = Delete(offerId);
 
             return result.IsSuccess ? new SuccessDataResult() : result;
         }
@@ -96,7 +97,9 @@ namespace PayCore.BusinessService.Services
             if (!dataResult.IsSuccess)
                 return dataResult;
 
-            return base.Update(model);
+            var result = base.Update(model);
+
+            return result.IsSuccess ? new SuccessDataResult { Data = result.Data } : result;
         }
         private IDataResult CheckProduct(OfferModel model)
         {

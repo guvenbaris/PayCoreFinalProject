@@ -55,7 +55,7 @@ namespace PayCore.BusinessService.Services
             var tokenResult =  _tokenService.GenerateToken(userFind);
 
             if (!tokenResult.IsSuccess)
-                return new SuccessDataResult { Message = "Login is successful" };
+                return new SuccessDataResult {Data = tokenResult.Data, Message = "Login is successful" };
             return new ErrorDataResult { ErrorMessage = "Login is not successful" };
         }
 

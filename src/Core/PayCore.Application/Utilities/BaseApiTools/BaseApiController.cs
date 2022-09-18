@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PayCore.Application.Interfaces.Services;
 using PayCore.Application.Models;
-using PayCore.Application.Utilities.Results;
 using PayCore.Domain.Entities;
 
 namespace PayCore.Application.Utilities.BaseApiTools;
@@ -23,7 +22,7 @@ public  abstract class BaseApiController<TEntity, TModel> : BaseApiResponse
     }
 
     [HttpGet("{id}")]
-    public virtual IActionResult GetById(int id)
+    public virtual IActionResult GetById(long id)
     {
         return ApiResponse<TModel>(_businessService.GetById(id));
     }
@@ -39,7 +38,7 @@ public  abstract class BaseApiController<TEntity, TModel> : BaseApiResponse
         return ApiResponse(_businessService.Update(model));
     }
     [HttpDelete("{id}")]
-    public virtual IActionResult Delete(int id)
+    public virtual IActionResult Delete(long id)
     {
         return ApiResponse(_businessService.Delete(id));
     }

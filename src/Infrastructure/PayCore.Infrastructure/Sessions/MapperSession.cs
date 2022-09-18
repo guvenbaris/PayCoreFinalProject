@@ -13,6 +13,7 @@ namespace PayCore.Infrastructure.Sessions
         public MapperSession(NHibernate.ISession session)
         {
             _session = session;
+            transaction = _session.BeginTransaction();
         }
 
         public IQueryable<T> Queries => _session.Query<T>();

@@ -20,16 +20,17 @@ namespace PayCore.BusinessService.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
+
         public virtual TModel GetById(long id)
         {
             var rawData = _unitOfWork.Session.GetById(id);
             return _mapper.Map<TModel>(rawData);
         }
+
         public virtual IEnumerable<TModel> GetAll()
         {
             var rawData = _unitOfWork.Session.Queries.ToList();
-            var data = _mapper.Map<List<TModel>>(rawData);
-            return data;
+            return _mapper.Map<List<TModel>>(rawData);
         }
 
         public virtual TModel GetFirstOrDefault(Expression<Func<TEntity, bool>> filter)
@@ -46,13 +47,10 @@ namespace PayCore.BusinessService.Services
 
         public virtual IDataResult Add(TModel model)
         {
-            var addedEntity = _unitOfWork.Add(_mapper.Map<TEntity>(model));
-            if (addedEntity is not null)
-            {
-                return new SuccessDataResult { Data = _mapper.Map<TModel>(addedEntity) };
-            }
+            var entity = _mapper.Map<TEntity>(model);
+            var addedEntity = _unitOfWork.Add(entity);
 
-            return new ErrorDataResult { ErrorMessage = "Entity didn't added." };
+            return new SuccessDataResult { Data = _mapper.Map<TModel>(addedEntity) };
         }
 
         public virtual IDataResult Update(TModel model)
@@ -62,13 +60,7 @@ namespace PayCore.BusinessService.Services
 
             var updatedEntity = _unitOfWork.Update(_mapper.Map<TEntity>(model));
 
-            if (updatedEntity is not null)
-            {
-                var deneme = _mapper.Map<TModel>(updatedEntity);
-                return new SuccessDataResult { Data =  deneme};
-            }
-
-            return new ErrorDataResult { ErrorMessage = "Entity didn't update." };
+            return new SuccessDataResult { Data = _mapper.Map<TModel>(updatedEntity) };
         }
 
         public virtual IDataResult Delete(long id)

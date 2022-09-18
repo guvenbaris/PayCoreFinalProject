@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PayCore.Application.Utilities.Results;
-
 namespace PayCore.Application.Utilities.BaseApiTools;
 
 [ApiController]
 [Route("api/[controller]s")]
-public abstract  class BaseApiResponse : ControllerBase
+public  class BaseApiResponse : ControllerBase
 {
     protected virtual IActionResult ApiResponse<IModel>(IEnumerable<IModel> data)
     {
