@@ -47,9 +47,12 @@ namespace PayCore.BusinessService.Services
 
         public virtual IDataResult Add(TModel model)
         {
-            var entity = _mapper.Map<TEntity>(model);
-            var addedEntity = _unitOfWork.Add(entity);
+            var addedEntity = _unitOfWork.Add(_mapper.Map<TEntity>(model));
 
+            if (addedEntity is null)
+            {
+                return new ErrorDataResult { ErrorMessage = "Entity didn't added." };
+            }
             return new SuccessDataResult { Data = _mapper.Map<TModel>(addedEntity) };
         }
 
@@ -59,6 +62,11 @@ namespace PayCore.BusinessService.Services
                 return new ErrorDataResult { ErrorMessage = "Entity didn't update." };
 
             var updatedEntity = _unitOfWork.Update(_mapper.Map<TEntity>(model));
+
+            if (updatedEntity is null)
+            {
+                return new ErrorDataResult { ErrorMessage = "Entity didn't update." };
+            }
 
             return new SuccessDataResult { Data = _mapper.Map<TModel>(updatedEntity) };
         }

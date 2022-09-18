@@ -25,7 +25,10 @@ namespace PayCore.Infrastructure.Sessions
 
         public void CloseTransaction()
         {
-            transaction.Dispose();
+            if (transaction.IsActive)
+            {
+                transaction.Dispose();
+            }
         }
 
         public void Commit()

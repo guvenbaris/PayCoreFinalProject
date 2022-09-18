@@ -4,8 +4,24 @@ using PayCore.Application.DependencyContainer;
 using PayCore.BusinessService.DependencyContainer;
 using PayCore.Infrastructure.DependencyContainer;
 using PayCore.Persistence.DependencyContainer;
+using Serilog;
+
+var config = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    .Build();
+
+Log.Logger = new LoggerConfiguration()
+  .ReadFrom.Configuration(config)
+  .Enrich.FromLogContext()
+  .Enrich.WithMachineName()
+  .Enrich.WithThreadName()
+  .Enrich.WithThreadId()
+  .CreateBootstrapLogger();
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Host.UseSerilog();
 
 builder.Services.AddControllers().AddNewtonsoftJson(opt =>
 {
