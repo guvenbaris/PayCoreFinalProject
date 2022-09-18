@@ -58,6 +58,20 @@ namespace PayCore.Infrastructure.Mapping
                 p.NotNullable(true);
                 Lazy(false);
             });
+            ManyToOne(c => c.Brand, p =>
+            {
+                p.Column("brand_id");
+                p.Fetch(FetchKind.Join);
+                p.NotNullable(true);
+                Lazy(false);
+            });
+            ManyToOne(c => c.Color, p =>
+            {
+                p.Column("color_id");
+                p.Fetch(FetchKind.Join);
+                p.NotNullable(true);
+                Lazy(false);
+            });
             Property(b => b.IsSold, x =>
             {
                 x.Type(NHibernateUtil.Boolean);
