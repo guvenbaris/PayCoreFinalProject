@@ -10,7 +10,7 @@ namespace PayCore.Infrastructure.Mapping
         public CategoryMapping()
         {
             Table("category");
-
+            Lazy(false);
             Id(x => x.Id, x =>
             {
                 x.Type(NHibernateUtil.Int64);

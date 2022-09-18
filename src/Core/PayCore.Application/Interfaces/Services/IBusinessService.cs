@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using PayCore.Application.Interfaces.Sessions;
 using PayCore.Application.Models;
 using PayCore.Application.Utilities.Results;
 using PayCore.Domain.Entities;
@@ -17,5 +16,6 @@ namespace PayCore.Application.Interfaces.Services
         IDataResult Add(TModel model);
         IDataResult Update(TModel model);
         IDataResult Delete(long id);
+        IEnumerable<TModel> SearchWithIn(string columnName, string parameters);
     }
 }

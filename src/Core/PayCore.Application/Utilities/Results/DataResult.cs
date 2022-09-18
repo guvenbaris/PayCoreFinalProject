@@ -9,7 +9,7 @@ public class DataResult : IDataResult
     public virtual bool IsSuccess { get; set; }
 
     public string? ErrorMessage { get; set; }
-    public List<string>  ErrorMessages { get; set; }
+    public string?  Message { get; set; }
 }
 public class DataResult<T> : DataResult where T : class, new()
 {

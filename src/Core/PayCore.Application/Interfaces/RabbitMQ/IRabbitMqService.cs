@@ -4,6 +4,6 @@ namespace PayCore.Application.Interfaces.RabbitMQ
 {
     public interface IRabbitMqService
     {
-        IConnection GetConnection();
+        IConnection GetRabbitMqConnection();
     }
 }

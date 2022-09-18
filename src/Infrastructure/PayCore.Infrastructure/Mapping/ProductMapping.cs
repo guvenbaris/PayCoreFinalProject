@@ -10,7 +10,7 @@ namespace PayCore.Infrastructure.Mapping
         public ProductMapping()
         {
             Table("product");
-
+            Lazy(false);
             Id(x => x.Id, x =>
             {
                 x.Type(NHibernateUtil.Int64);
@@ -49,12 +49,14 @@ namespace PayCore.Infrastructure.Mapping
                 p.Column("category_id");
                 p.Fetch(FetchKind.Join);
                 p.NotNullable(true);
+                Lazy(false);
             });
             ManyToOne(c => c.User, p =>
             {
                 p.Column("user_id");
                 p.Fetch(FetchKind.Join);
                 p.NotNullable(true);
+                Lazy(false);
             });
             Property(b => b.IsSold, x =>
             {

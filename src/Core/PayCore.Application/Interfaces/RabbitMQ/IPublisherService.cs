@@ -4,5 +4,5 @@ namespace PayCore.Application.Interfaces.RabbitMQ;
 
 public interface IPublisherService
 {
-    void Publish(EmailToSend email, string queueName);
+    void PublishEmail(EmailToSend email, string queueName);
 }

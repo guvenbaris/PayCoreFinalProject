@@ -10,7 +10,7 @@ public class UserMapping : ClassMapping<UserEntity>
     public UserMapping()
     {
         Table("user");
-
+        Lazy(false);
         Id(x => x.Id, x =>
         {
             x.Type(NHibernateUtil.Int64);
@@ -27,12 +27,13 @@ public class UserMapping : ClassMapping<UserEntity>
         Property(b => b.FirstName, x =>
         {
             x.Type(NHibernateUtil.String);
+            x.Length(50);
             x.Column("first_name");
             x.NotNullable(true);
         });
         Property(b => b.LastName, x =>
         {
-            x.Length(150);
+            x.Length(50);
             x.Type(NHibernateUtil.String);
             x.Column("last_name");
             x.NotNullable(true);
@@ -59,7 +60,6 @@ public class UserMapping : ClassMapping<UserEntity>
         });
         Property(b => b.Role, x =>
         {
-            x.Length(50);
             x.Type(NHibernateUtil.String);
             x.NotNullable(true);
             x.Column("role");

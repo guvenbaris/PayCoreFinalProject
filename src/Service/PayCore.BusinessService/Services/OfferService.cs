@@ -1,10 +1,14 @@
 ﻿using AutoMapper;
+using FluentValidation;
+using PayCore.Application.Constant.Offer;
+using PayCore.Application.Constant.Product;
 using PayCore.Application.Interfaces.Services;
 using PayCore.Application.Interfaces.Sessions;
 using PayCore.Application.Interfaces.UnitOfWork;
 using PayCore.Application.Models;
 using PayCore.Application.Utilities.BusinessRuleEngine;
 using PayCore.Application.Utilities.Results;
+using PayCore.Application.Validations.OfferValidation;
 using PayCore.Domain.Entities;
 
 namespace PayCore.BusinessService.Services
@@ -12,23 +16,24 @@ namespace PayCore.BusinessService.Services
     public class OfferService : BusinessService<OfferEntity, OfferModel>, IOfferService
     {
         private readonly IProductService _productService;
-        private readonly IOfferSession _offerSession;
         public OfferService(IUnitOfWork<OfferEntity, OfferModel> unitOfWork, IMapper mapper, IProductService productService, IOfferSession offerSession) : base(unitOfWork, mapper)
         {
             _productService = productService;
-            _offerSession = offerSession;
         }
 
         public override IDataResult Add(OfferModel model)
         {
-            // Validasyon yazılacak ... var validator = 
+            var validator = new OfferValidator();
+            validator.ValidateAndThrow(model);
 
             var dataResult = BusinessRuleEngine.Validate(CheckProduct(model));
 
             if (!dataResult.IsSuccess)
                 return dataResult;
 
-           return base.Add(model);
+            var result =  base.Add(model);
+
+            return result.IsSuccess ? new SuccessDataResult() : result;
         }
 
         public IDataResult ApproveTheOffer(long offerId)
@@ -36,28 +41,33 @@ namespace PayCore.BusinessService.Services
             var offer = base.GetFirstOrDefault(x=>x.Id == offerId);
 
             if (offer is null)
-                return new ErrorDataResult { ErrorMessage = "Offer didn't find"}; 
+                return new ErrorDataResult { ErrorMessage = OfferConstant.OfferNotFound}; 
 
             var product = _productService.GetById(offerId);
             product.IsOfferable = false;
             product.IsSold = true;
             product.UserId = offer.UserId;
 
-            return _productService.Update(product);
+            var result = _productService.Update(product);
+
+            return result.IsSuccess ? new SuccessDataResult() : result;
         }
 
-        public IEnumerable<OfferModel> GetUserOffersOnProducts(long userId)
+        public IList<OfferModel> GetUserOffersOnProducts(long userId)
         {
-            userId = 1;
-            var userProducts = _productService.Where(x => x.User.Id == userId);
-            var offers = base.Where(x => userProducts.Select(y => y.Id).ToList().Contains(1));
+            var userProducts = _productService.Where(x => x.User!.Id == userId);
 
-            return offers;
+            if (userProducts is null)
+                return null!;
+
+            string Ids = String.Join(",", userProducts.Select(x => x.Id!.Value).ToList());
+
+            return base.SearchWithIn("product_id",Ids).ToList();
         }
 
         public IList<OfferModel> GetUserProductOffers(long userId)
         {
-            return base.Where(x=>x.User.Id == userId).ToList();
+            return base.Where(x=>x.User!.Id == userId).ToList(); 
         }
 
         public IDataResult RejectTheOffer(long offerId)
@@ -65,17 +75,23 @@ namespace PayCore.BusinessService.Services
             var offer = base.GetFirstOrDefault(x=>x.Id == offerId);
 
             if (offer is null)
-                return new ErrorDataResult { ErrorMessage = "Offer didn't find" };
+                return new ErrorDataResult { ErrorMessage = OfferConstant.OfferNotFound };
 
             var product = _productService.GetById(offerId);
-            product.IsOfferable = true;
 
-            return base.Delete(offerId);
+            if (product is null)
+                return new ErrorDataResult { ErrorMessage = ProductConstant.ProductNotFound};
+
+            var result = base.Delete(offerId);
+
+            return result.IsSuccess ? new SuccessDataResult() : result;
         }
 
         public override IDataResult Update(OfferModel model)
         {
-            // validasyon yazılacak 
+            var validator = new OfferValidator();
+            validator.ValidateAndThrow(model);
+
             var dataResult = BusinessRuleEngine.Validate(CheckProduct(model));
             if (!dataResult.IsSuccess)
                 return dataResult;
@@ -90,12 +106,12 @@ namespace PayCore.BusinessService.Services
                 return new ErrorDataResult();
 
             if (!product.IsOfferable)
-                return new ErrorDataResult { ErrorMessage = "Product status is not offered" };
+                return new ErrorDataResult { ErrorMessage = ProductConstant.NotOfferable };
 
             var offeredPrice = (product.Price * model.PercentRate) / 100;
 
             if (model.OfferedPrice < offeredPrice)
-                return new ErrorDataResult { ErrorMessage = "Offer is much lower to for price" };
+                return new ErrorDataResult { ErrorMessage = OfferConstant.OfferNotValid};
 
             return new SuccessDataResult();
         }

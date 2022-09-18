@@ -1,11 +1,9 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using NHibernate;
 using PayCore.Application.Interfaces.Jwt;
 using PayCore.Application.Models;
 using PayCore.Application.Utilities.Appsettings;
 using PayCore.Application.Utilities.Results;
-using PayCore.Domain.Entities;
 using PayCore.Domain.Jwt;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -34,8 +32,7 @@ namespace PayCore.BusinessService.Services
                 SessionTimeInSecond = _payCoreAppSettings.Value.JwtSettings.TokenExpirationMinute * 60
             };
 
-            var ddeneme = new SuccessDataResult<TokenResponse> { Data = tokenResponse };
-            return ddeneme;
+           return new SuccessDataResult<TokenResponse> { Data = tokenResponse };
         }
         private string GetToken(UserModel user, DateTime date)
         {

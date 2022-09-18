@@ -50,7 +50,6 @@ namespace PayCore.Infrastructure.Sessions
         public virtual void Update(T entity)
         {
             _session.Merge(entity);
-            //_session.Update(entity);
         }
 
         public T GetById(long id)
@@ -66,6 +65,11 @@ namespace PayCore.Infrastructure.Sessions
         public T GetFirstOrDefault(Expression<Func<T, bool>> filter)
         {
             return _session.Query<T>().FirstOrDefault(filter)!;
+        }
+
+        public IEnumerable<T> SearchWithIn(string columnName, string parameters)
+        {
+           return  _session.CreateSQLQuery($"SELECT * FROM offer where {columnName} in({parameters})").AddEntity(typeof(T)).List<T>();
         }
     }
 }

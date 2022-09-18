@@ -16,5 +16,6 @@ namespace PayCore.Application.Interfaces.Sessions
         T GetById(long id);
         IEnumerable<T> Where(Expression<Func<T, bool>> filter);
         T GetFirstOrDefault(Expression<Func<T, bool>> filter);
+        IEnumerable<T> SearchWithIn(string columnName, string parameters);
     }
 }

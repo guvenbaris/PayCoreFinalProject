@@ -1,21 +1,29 @@
-﻿
-using PayCore.Application.Dtos.Email;
+﻿using System.Text;
+using RabbitMQ.Client;
 using PayCore.Application.Interfaces.RabbitMQ;
+using PayCore.Application.Dtos.Email;
 
-namespace PayCore.Persistence.Services.RabbitMQ;
-
-public class PublisherService : IPublisherService
+namespace UnluCoProductCatalog.Persistence.Services.RabbitMQ
 {
-
-    public void Publish(EmailToSend email,string queueName)
+    public class PublisherService : IPublisherService
     {
-        //using var connection = _rabbitMqService.GetRabbitMqConnection();
-        //using var channel = connection.CreateModel();
+        private readonly IRabbitMqService _rabbitMqService;
 
-        //channel.QueueDeclare(queueName, false, false, false, null);
-        //var body = Encoding.UTF8.GetBytes(System.Text.Json.JsonSerializer.Serialize(email));
+        public PublisherService(IRabbitMqService rabbitMqService)
+        {
+            _rabbitMqService = rabbitMqService;
+        }
 
-        //channel.BasicPublish("", queueName, null, body: body);
+        public void PublishEmail(EmailToSend email,string queueName)
+        {
+            using var connection = _rabbitMqService.GetRabbitMqConnection();
+            using var channel = connection.CreateModel();
+
+            channel.QueueDeclare(queueName, false, false, false, null);
+            var body = Encoding.UTF8.GetBytes(System.Text.Json.JsonSerializer.Serialize(email));
+
+            channel.BasicPublish("", queueName, null, body: body);
+        }
     }
 }
 

@@ -27,7 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayCore.BusinessService", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence", "{DE8B0171-C73D-4226-8BC6-EFB452169F2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayCore.Persistence", "src\Persistence\PayCore.Persistence\PayCore.Persistence.csproj", "{DCAD0FD0-8D43-459C-B4BD-3538C95E9916}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayCore.Persistence", "src\Persistence\PayCore.Persistence\PayCore.Persistence.csproj", "{DCAD0FD0-8D43-459C-B4BD-3538C95E9916}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Consumer", "Consumer", "{40E2D6BE-9F2B-407D-9EFB-A30F30B626BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paycore.RabbitMqConsumer", "src\Consumer\Paycore.RabbitMqConsumer\Paycore.RabbitMqConsumer.csproj", "{1460BDEB-501B-45AF-B874-05EBBD9CC048}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +63,10 @@ Global
 		{DCAD0FD0-8D43-459C-B4BD-3538C95E9916}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCAD0FD0-8D43-459C-B4BD-3538C95E9916}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCAD0FD0-8D43-459C-B4BD-3538C95E9916}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1460BDEB-501B-45AF-B874-05EBBD9CC048}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1460BDEB-501B-45AF-B874-05EBBD9CC048}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1460BDEB-501B-45AF-B874-05EBBD9CC048}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1460BDEB-501B-45AF-B874-05EBBD9CC048}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +84,8 @@ Global
 		{04A23BE1-136E-4C17-9395-C02327D35AF7} = {4E2CD2C1-F757-42BE-A9CB-407E98EB7B36}
 		{DE8B0171-C73D-4226-8BC6-EFB452169F2C} = {8DF16178-3EF8-4F92-B4C7-017F91886236}
 		{DCAD0FD0-8D43-459C-B4BD-3538C95E9916} = {DE8B0171-C73D-4226-8BC6-EFB452169F2C}
+		{40E2D6BE-9F2B-407D-9EFB-A30F30B626BD} = {8DF16178-3EF8-4F92-B4C7-017F91886236}
+		{1460BDEB-501B-45AF-B874-05EBBD9CC048} = {40E2D6BE-9F2B-407D-9EFB-A30F30B626BD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2F7F2E06-1569-41C0-B06F-BDD1324BB23F}

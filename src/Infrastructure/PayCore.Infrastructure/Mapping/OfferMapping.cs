@@ -10,7 +10,7 @@ namespace PayCore.Infrastructure.Mapping
         public OfferMapping()
         {
             Table("offer");
-
+            Lazy(false);
             Id(x => x.Id, x =>
             {
                 x.Type(NHibernateUtil.Int64);
@@ -40,12 +40,15 @@ namespace PayCore.Infrastructure.Mapping
             {
                 p.Column("product_id");
                 p.NotNullable(true);
+                p.Fetch(FetchKind.Join);
+                Lazy(true);
             });
             ManyToOne(c => c.User, p =>
             {
                 p.Column("user_id");
                 p.Fetch(FetchKind.Join);
                 p.NotNullable(true);
+                Lazy(false);
             });
         }
     }

@@ -6,6 +6,7 @@ namespace PayCore.Application.Utilities.Appsettings
         public RedisSettings RedisSettings { get; set; }
         public JwtSettings JwtSettings { get; set; }
         public HashSettings HashSettings { get; set; }
+        public RabbitMqSettings RabbitMqSettings { get; set; }
 
     }
     public class RedisSettings
@@ -26,5 +27,9 @@ namespace PayCore.Application.Utilities.Appsettings
     public class HashSettings
     {
         public string Salt { get; set; }
+    }
+    public class RabbitMqSettings
+    {
+        public string Host { get; set; }
     }
 }

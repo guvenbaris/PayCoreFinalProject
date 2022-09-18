@@ -18,11 +18,13 @@ public class ProductController : BaseApiController<ProductEntity, ProductModel>
     public override IActionResult Add([FromBody] ProductModel model)
     {
         model.UserId = Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        model.UserId = 1;
         return ApiResponse(_productService.Add(model));
     }
     public override IActionResult Update([FromBody] ProductModel model)
     {
         model.UserId = Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        model.UserId = 1;
         return ApiResponse(_productService.Update(model));
     }
 
