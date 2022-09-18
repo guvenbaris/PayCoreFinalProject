@@ -6,8 +6,6 @@ namespace PayCore.Application.Interfaces.Services
 {
     public interface IOfferService : IBusinessService<OfferEntity, OfferModel>
     {
-        IList<OfferModel> GetUserProductOffers(long userId);
-        IList<OfferModel> GetUserOffersOnProducts(long userId);
         IDataResult ApproveTheOffer(long offerId);
         IDataResult RejectTheOffer(long offerId);
     }

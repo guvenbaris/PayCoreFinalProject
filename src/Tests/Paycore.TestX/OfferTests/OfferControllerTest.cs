@@ -7,7 +7,6 @@ using PayCore.Application.Utilities.Results;
 using System.Collections.Generic;
 using Xunit;
 
-
 namespace Paycore.TestX.OfferTests
 {
     public class OfferControllerTest

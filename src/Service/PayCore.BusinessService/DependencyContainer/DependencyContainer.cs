@@ -3,9 +3,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using PayCore.Application.Interfaces.Cache;
+using PayCore.Application.Interfaces.HelperServices;
 using PayCore.Application.Interfaces.Jwt;
 using PayCore.Application.Interfaces.Services;
 using PayCore.BusinessService.Cache;
+using PayCore.BusinessService.HelperServices;
 using PayCore.BusinessService.Services;
 using StackExchange.Redis;
 using System.Text;
@@ -39,7 +41,7 @@ namespace PayCore.BusinessService.DependencyContainer
 
             ConfigurationOptions configurationOptions = new ConfigurationOptions()
             {
-                EndPoints = {$"{configuration.GetSection("PayCoreAppSettings:RedisSettings").GetValue<string>("Host") }:{configuration.GetSection("PayCoreAppSettings:RedisSettings").GetValue<string>("Port")}"
+                EndPoints = {$"{configuration.GetSection("PayCoreSettings:RedisSettings").GetValue<string>("Host") }:{configuration.GetSection("PayCoreSettings:RedisSettings").GetValue<string>("Port")}"
             },
                 AllowAdmin = true,
                 ConnectTimeout = 60 * 1000,
@@ -54,6 +56,9 @@ namespace PayCore.BusinessService.DependencyContainer
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IOfferService, OfferService>();
+            services.AddScoped<IAccountDetailService, AccountDetailService>();
+            services.AddScoped<IColorService, ColorService>();
+            services.AddScoped<IBrandService, BrandService>();
 
 
             return services;

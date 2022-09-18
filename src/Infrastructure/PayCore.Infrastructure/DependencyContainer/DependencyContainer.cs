@@ -49,6 +49,8 @@ namespace PayCore.Infrastructure.DependencyContainer
             services.AddScoped<IProductSession, ProductSession>();
             services.AddScoped<ICategorySession, CategorySession>();
             services.AddScoped<IOfferSession, OfferSession>();
+            services.AddScoped<IBrandSesion, BrandSession>();
+            services.AddScoped<IColorSession, ColorSession>();
 
             return services;
         }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PayCore.Application.Interfaces.Services;
+using PayCore.Application.Interfaces.HelperServices;
 using PayCore.Application.Utilities.BaseApiTools;
 using System.Security.Claims;
 
@@ -7,24 +7,24 @@ namespace Paycore.WebAPI.Controllers
 {
     public class AccountDetailController : BaseApiResponse
     {
-        private readonly IOfferService _offerService;
-        public AccountDetailController(IOfferService offerService)
+        private readonly IAccountDetailService _accountDetailService;
+        public AccountDetailController(IAccountDetailService accountDetailService)
         {
-            _offerService = offerService;
+            _accountDetailService = accountDetailService;
         }
 
         [HttpGet("GetUserProductOffers")]
         public IActionResult GetUserProductOffers()
         {
             long userId = Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            return ApiResponse(_offerService.GetUserProductOffers(userId));
+            return ApiResponse(_accountDetailService.GetUserProductOffers(userId));
         }
 
         [HttpGet("GetUserOffersOnProducts")]
         public IActionResult GetOffersOnUserProducts()
         {
             long userId = Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            return ApiResponse(_offerService.GetUserOffersOnProducts(userId));
+            return ApiResponse(_accountDetailService.GetUserOffersOnProducts(userId));
         }
     }
 }

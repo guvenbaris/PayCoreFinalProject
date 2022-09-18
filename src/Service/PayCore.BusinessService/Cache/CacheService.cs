@@ -39,7 +39,7 @@ namespace PayCore.BusinessService.Cache
             }
             catch (Exception)
             {
-                throw new CustomException("Redis server error");
+                throw new CustomException("Redis server error",HttpStatusCode.InternalServerError);
             }
         }
 

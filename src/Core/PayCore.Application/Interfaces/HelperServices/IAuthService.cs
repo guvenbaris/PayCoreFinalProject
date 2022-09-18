@@ -1,7 +1,7 @@
 ﻿using PayCore.Application.Dtos.Auth;
 using PayCore.Application.Utilities.Results;
 
-namespace PayCore.Application.Interfaces.Services;
+namespace PayCore.Application.Interfaces.HelperServices;
 
 public interface IAuthService
 {
