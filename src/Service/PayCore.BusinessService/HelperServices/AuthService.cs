@@ -4,6 +4,7 @@ using PayCore.Application.Constant.Auth;
 using PayCore.Application.Dtos.Auth;
 using PayCore.Application.Dtos.Email;
 using PayCore.Application.Enums;
+using PayCore.Application.Extensions;
 using PayCore.Application.Interfaces.HelperServices;
 using PayCore.Application.Interfaces.Jwt;
 using PayCore.Application.Interfaces.RabbitMQ;
@@ -41,7 +42,7 @@ public class AuthService : IAuthService
         if (userFind == null)
             return new ErrorDataResult { ErrorMessage = AuthConstants.PasswordOrMailError };
 
-        var existingPassword =  HashingHelper.CreatePasswordHash(loginDto.Password,loginDto.Email);
+        var existingPassword =  HashingHelper.CreatePasswordHash(userFind.Password, userFind.Email);
 
         var verifyPassword =  HashingHelper.CreatePasswordHash(loginDto.Password, loginDto.Email);
 
@@ -78,7 +79,7 @@ public class AuthService : IAuthService
               
         var emailChecker = _userService.GetFirstOrDefault(x=>x.Email == registerDto.Email);
 
-        if (emailChecker is not null)
+        if (emailChecker.IsNotNull())
             return new ErrorDataResult { ErrorMessage = AuthConstants.PasswordOrMailError };
 
         user.Password = HashingHelper.CreatePasswordHash(registerDto.Password,registerDto.Email);
