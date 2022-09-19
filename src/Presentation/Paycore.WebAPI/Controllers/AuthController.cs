@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PayCore.Application.Dtos.Auth;
-using PayCore.Application.Exceptions;
 using PayCore.Application.Interfaces.HelperServices;
 using PayCore.Application.Utilities.BaseApiTools;
-using System.Net;
 
 namespace Paycore.WebAPI.Controllers;
 
+[ApiController]
 public class AuthController : BaseApiResponse
 {
     private readonly IAuthService _authService;
@@ -19,7 +18,6 @@ public class AuthController : BaseApiResponse
     [HttpPost("Login")]
     public IActionResult Login([FromBody] LoginDto loginDto)
     {
-        throw new CustomException("Hata Geliyor hata",HttpStatusCode.InternalServerError);
         return ApiResponse(_authService.Login(loginDto));
     }
 

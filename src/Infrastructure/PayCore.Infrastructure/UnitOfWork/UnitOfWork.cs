@@ -1,9 +1,12 @@
-﻿using PayCore.Application.Exceptions;
+﻿using PayCore.Application.Constant.Error;
+using PayCore.Application.Exceptions;
 using PayCore.Application.Interfaces.Sessions;
 using PayCore.Application.Interfaces.UnitOfWork;
 using PayCore.Application.Models;
 using PayCore.Domain.Entities;
 using PayCore.Infrastructure.Sessions;
+using Serilog;
+using System.Net;
 
 namespace PayCore.Infrastructure.UnitOfWork;
 
@@ -28,7 +31,8 @@ public class UnitOfWork<TEntity,TModel> : IUnitOfWork<TEntity,TModel>
         catch (Exception)
         {
             this.Session.Rollback();
-            throw new CustomException("Nhibernate Add Error.");
+            Log.Error($"UnitOfWork.Add, {ErrorConstant.NhibernateAddError}");
+            throw new CustomException(ErrorConstant.NhibernateAddError, HttpStatusCode.InternalServerError);
         }
         finally
         {
@@ -49,7 +53,8 @@ public class UnitOfWork<TEntity,TModel> : IUnitOfWork<TEntity,TModel>
         catch (Exception)
         {
             this.Session.Rollback();
-            throw new CustomException("Nhibernate Update Error.");
+            Log.Error($"UnitOfWork.Update, {ErrorConstant.NhibernateUpdateError}");
+            throw new CustomException(ErrorConstant.NhibernateUpdateError,HttpStatusCode.InternalServerError);
         }
         finally
         {
@@ -69,7 +74,8 @@ public class UnitOfWork<TEntity,TModel> : IUnitOfWork<TEntity,TModel>
         catch (Exception)
         {
             this.Session.Rollback();
-            throw new CustomException("Nhibernate Delete Error.");
+            Log.Error($"UnitOfWork.Delete, {ErrorConstant.NhibernateDeleteError}");
+            throw new CustomException(ErrorConstant.NhibernateDeleteError, HttpStatusCode.InternalServerError);
         }
         finally
         {

@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using PayCore.Application.Constant.Error;
 using PayCore.Application.Exceptions;
 using PayCore.Application.Interfaces.Cache;
 using PayCore.Application.Utilities.Appsettings;
+using Serilog;
 using StackExchange.Redis;
 using System.Net;
 using System.Text;
@@ -37,21 +39,31 @@ namespace PayCore.BusinessService.Cache
             {
                 _distributedCache.Remove(key);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new CustomException("Redis server error",HttpStatusCode.InternalServerError);
+                Log.Error($"CacheService.Delete, {ErrorConstant.RedisServerError} : {ex.Message}");
+                throw new CustomException(ErrorConstant.RedisServerError,HttpStatusCode.InternalServerError);
             }
         }
 
         public void DeleteIfContainName(string name)
         {
-            foreach (var key in _server.Keys())
+            try
             {
-                if (key.ToString().Contains(name))
+                foreach (var key in _server.Keys())
                 {
-                    _distributedCache.Remove(key);
+                    if (key.ToString().Contains(name))
+                    {
+                        _distributedCache.Remove(key);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                Log.Error($"CacheService.Delete, {ErrorConstant.RedisServerError} : {ex.Message}");
+                throw new CustomException(ErrorConstant.RedisServerError, HttpStatusCode.InternalServerError);
+            }
+
         }
 
         public void FlushAll()
@@ -60,9 +72,10 @@ namespace PayCore.BusinessService.Cache
             {
                 _server.FlushDatabase();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new CustomException("Redis server error", HttpStatusCode.InternalServerError);
+                Log.Error($"CacheService.FlushAll, {ErrorConstant.RedisServerError} : {ex.Message}");
+                throw new CustomException(ErrorConstant.RedisServerError, HttpStatusCode.InternalServerError);
             }
         }
 
@@ -75,13 +88,14 @@ namespace PayCore.BusinessService.Cache
                 {
                     var array = Encoding.UTF8.GetString(cacheData);
                     var data = JsonConvert.DeserializeObject<string>(array);
-                    return data;
+                    return data!;
                 }
                 return string.Empty;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new CustomException("Redis server error", HttpStatusCode.InternalServerError);
+                Log.Error($"CacheService.GetByKey, {ErrorConstant.RedisServerError} : {ex.Message}");
+                throw new CustomException(ErrorConstant.RedisServerError, HttpStatusCode.InternalServerError);
             }
         }
 
@@ -94,13 +108,14 @@ namespace PayCore.BusinessService.Cache
                 {
                     var array = Encoding.UTF8.GetString(cacheData);
                     var data = JsonConvert.DeserializeObject<string>(array);
-                    return data;
+                    return data!;
                 }
                 return string.Empty;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new CustomException("Redis server error", HttpStatusCode.InternalServerError);
+                Log.Error($"CacheService.GetByKeyAsync, {ErrorConstant.RedisServerError} : {ex.Message}");
+                throw new CustomException(ErrorConstant.RedisServerError, HttpStatusCode.InternalServerError);
             }
         }
 
@@ -117,9 +132,10 @@ namespace PayCore.BusinessService.Cache
 
                 _distributedCache.Set(key, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(value)), options);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new CustomException("Redis server error", HttpStatusCode.InternalServerError);
+                Log.Error($"CacheService.InsertValue, {ErrorConstant.RedisServerError} : {ex.Message}");
+                throw new CustomException(ErrorConstant.RedisServerError, HttpStatusCode.InternalServerError);
             }
         }
 
@@ -136,9 +152,10 @@ namespace PayCore.BusinessService.Cache
 
                 await _distributedCache.SetAsync(key, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(value)), options);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new CustomException("Redis server error", HttpStatusCode.InternalServerError);
+                Log.Error($"CacheService.InsertValueAsync, {ErrorConstant.RedisServerError} : {ex.Message}");
+                throw new CustomException(ErrorConstant.RedisServerError, HttpStatusCode.InternalServerError);
             }
         }
     }

@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Paycore.WebAPI.Middlewares;
 using PayCore.Application.DependencyContainer;
 using PayCore.BusinessService.DependencyContainer;
 using PayCore.Infrastructure.DependencyContainer;
@@ -52,6 +53,8 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseCustomeExceptionMiddle();
 
 app.MapControllers();
 

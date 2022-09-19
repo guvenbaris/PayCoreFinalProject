@@ -5,7 +5,7 @@ namespace PayCore.Application.Exceptions
 {
     public class CustomException : Exception
     {
-        public HttpStatusCode HttpStatusCode { get; set; } = HttpStatusCode.InternalServerError;
+        public HttpStatusCode HttpStatusCode { get; set; } = HttpStatusCode.BadRequest;
         public List<string> ErrrorList { get; set; }
 
         public CustomException() : base()

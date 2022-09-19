@@ -1,10 +1,12 @@
 ﻿using System.Linq.Expressions;
 using AutoMapper;
+using PayCore.Application.Constant.Error;
 using PayCore.Application.Interfaces.Services;
 using PayCore.Application.Interfaces.UnitOfWork;
 using PayCore.Application.Models;
 using PayCore.Application.Utilities.Results;
 using PayCore.Domain.Entities;
+using Serilog;
 
 namespace PayCore.BusinessService.Services
 {
@@ -47,11 +49,14 @@ namespace PayCore.BusinessService.Services
 
         public virtual IDataResult Add(TModel model)
         {
-            var addedEntity = _unitOfWork.Add(_mapper.Map<TEntity>(model));
+            var entity = _mapper.Map<TEntity>(model);
+
+            var addedEntity = _unitOfWork.Add(entity);
 
             if (addedEntity is null)
             {
-                return new ErrorDataResult { ErrorMessage = "Entity didn't added." };
+                Log.Warning($"BusinessService.Add : {ErrorConstant.BusinessAddError}");
+                return new ErrorDataResult { ErrorMessage = ErrorConstant.BusinessAddError };
             }
             return new SuccessDataResult { Data = _mapper.Map<TModel>(addedEntity) };
         }
@@ -65,7 +70,8 @@ namespace PayCore.BusinessService.Services
 
             if (updatedEntity is null)
             {
-                return new ErrorDataResult { ErrorMessage = "Entity didn't update." };
+                Log.Warning($"BusinessService.Update : {ErrorConstant.BusinessUpdateError}");
+                return new ErrorDataResult { ErrorMessage = ErrorConstant.BusinessUpdateError };
             }
 
             return new SuccessDataResult { Data = _mapper.Map<TModel>(updatedEntity) };
@@ -82,7 +88,8 @@ namespace PayCore.BusinessService.Services
             }
             else
             {
-                return new ErrorDataResult { ErrorMessage = "Entity didn't deleted." };
+                Log.Warning($"BusinessService.Delete : {ErrorConstant.BusinessDeleteError}");
+                return new ErrorDataResult { ErrorMessage = ErrorConstant.BusinessDeleteError };
             }
         }
 

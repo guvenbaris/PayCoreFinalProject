@@ -5,6 +5,7 @@ using PayCore.Application.AutoMapperProfiles;
 using PayCore.Application.Interfaces.Services;
 using PayCore.Application.Interfaces.UnitOfWork;
 using PayCore.Application.Models;
+using PayCore.Application.Utilities.Results;
 using PayCore.BusinessService.Services;
 using PayCore.Domain.Entities;
 using PayCore.Infrastructure.UnitOfWork;
@@ -13,18 +14,19 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace Paycore.TestX.ProducTests
+namespace Paycore.TestX.ProductTests
 {
     public class ProductServiceTest
     {
         private readonly Mock<IUnitOfWork<ProductEntity, ProductModel>> _unitOfWorkMock;
+        private readonly Mock<UnitOfWork<ProductEntity, ProductModel>> _unitOfWorkMockCrud;
         private readonly Mock<ICategoryService> _categoryMock;
         private readonly IMapper _mapper;
 
 
         public ProductModel ProductTestModel { get; set; } = new ProductModel { Id = 1, ProductName = "Test-1" ,CategoryId = 1,Price = 150,IsDeleted = false,
-        Description = "Description"};
-        public ProductEntity ProductTestEntity { get; set; } = new ProductEntity { Id = 1, ProductName = "Test-1", Price = 150, IsDeleted = false,Description = "Description" };
+        Description = "Description",BrandId = 1,ColorId = 1};
+        public ProductEntity ProductTestEntity { get; set; } = new ProductEntity { Id = 1, ProductName = "Test-1", Price = 150, IsDeleted = false,Description = "Description"};
 
         public ProductServiceTest()
         {
@@ -36,6 +38,8 @@ namespace Paycore.TestX.ProducTests
             var transactionMock = new Mock<ITransaction>();
 
             _unitOfWorkMock = new Mock<IUnitOfWork<ProductEntity, ProductModel>>();
+
+            _unitOfWorkMockCrud = new Mock<UnitOfWork<ProductEntity, ProductModel>>(sessionMock.Object);
             _categoryMock = new Mock<ICategoryService>();
 
             sessionMock.Setup(x => x.BeginTransaction()).Returns(transactionMock.Object);
@@ -49,10 +53,10 @@ namespace Paycore.TestX.ProducTests
         {
             var categoryModel = new CategoryModel {Id = 1 , CategoryName = "Test-1" };
             _categoryMock.Setup(x=>x.GetById(categoryModel.Id.Value)).Returns(new CategoryModel { Id = 1});
+           
+            var productService = new ProductService(_unitOfWorkMockCrud.Object, _mapper, _categoryMock.Object);
             
-            var productMock = new Mock<ProductService>(_unitOfWorkMock.Object, _mapper, _categoryMock.Object) { CallBase = true};
-            
-            var result = productMock.Object.Add(ProductTestModel);
+            var result = productService.Add(ProductTestModel);
 
             Assert.True(result.IsSuccess);
         }
@@ -63,7 +67,8 @@ namespace Paycore.TestX.ProducTests
             var categoryModel = new CategoryModel { Id = 1, CategoryName = "Test-1" };
             _categoryMock.Setup(x => x.GetById(categoryModel.Id.Value)).Returns(new CategoryModel { Id = 1 });
 
-            var productService = new ProductService(_unitOfWorkMock.Object, _mapper, _categoryMock.Object);
+            var productService = new ProductService(_unitOfWorkMockCrud.Object, _mapper, _categoryMock.Object);
+            
             var result = productService.Update(ProductTestModel);
 
             Assert.True(result.IsSuccess);

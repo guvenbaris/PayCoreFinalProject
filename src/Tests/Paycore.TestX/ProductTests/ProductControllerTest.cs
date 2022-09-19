@@ -7,7 +7,7 @@ using PayCore.Application.Utilities.Results;
 using System.Collections.Generic;
 using Xunit;
 
-namespace Paycore.TestX.ProducTests
+namespace Paycore.TestX.ProductTests
 {
     public class ProductControllerTest
     {

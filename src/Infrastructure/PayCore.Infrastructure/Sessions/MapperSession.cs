@@ -16,7 +16,7 @@ namespace PayCore.Infrastructure.Sessions
             transaction = _session.BeginTransaction();
         }
 
-        public IQueryable<T> Queries => _session.Query<T>();
+        public IQueryable<T> Queries => _session.Query<T>().Where(x=>x.IsDeleted == false);
 
         public void BeginTransaction()
         {
@@ -51,29 +51,29 @@ namespace PayCore.Infrastructure.Sessions
             _session.Save(entity);
         }
 
-        public virtual void Update(T entity)
+        public void Update(T entity)
         {
             _session.Merge(entity);
         }
 
         public T GetById(long id)
         {
-            return _session.Get<T>(id);
+            return _session.Query<T>().FirstOrDefault(x=>x.IsDeleted == false && x.Id == id)!;
         }
 
         public IEnumerable<T> Where(Expression<Func<T, bool>> filter)
         {
-            return _session.Query<T>().Where(filter).AsEnumerable();
+            return _session.Query<T>().Where(x=>x.IsDeleted == false).Where(filter).AsEnumerable();
         }
 
         public T GetFirstOrDefault(Expression<Func<T, bool>> filter)
         {
-            return _session.Query<T>().FirstOrDefault(filter)!;
+            return _session.Query<T>().Where(x=>x.IsDeleted == false).FirstOrDefault(filter)!;
         }
 
         public IEnumerable<T> SearchWithIn(string columnName, string parameters)
         {
-           return  _session.CreateSQLQuery($"SELECT * FROM offer where {columnName} in({parameters})").AddEntity(typeof(T)).List<T>();
+           return _session.CreateSQLQuery($"SELECT * FROM offer where {columnName} in({parameters})").AddEntity(typeof(T)).List<T>();
         }
     }
 }
