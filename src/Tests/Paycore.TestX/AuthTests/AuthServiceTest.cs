@@ -1,22 +1,16 @@
 ﻿using AutoMapper;
 using Moq;
-using NHibernate;
 using PayCore.Application.AutoMapperProfiles;
 using PayCore.Application.Dtos.Auth;
 using PayCore.Application.Interfaces.Jwt;
 using PayCore.Application.Interfaces.RabbitMQ;
 using PayCore.Application.Interfaces.Services;
-using PayCore.Application.Interfaces.UnitOfWork;
 using PayCore.Application.Models;
 using PayCore.Application.Utilities.Results;
 using PayCore.BusinessService.HelperServices;
-using PayCore.BusinessService.Services;
 using PayCore.Domain.Entities;
 using PayCore.Domain.Jwt;
-using PayCore.Infrastructure.UnitOfWork;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using Xunit;
 
@@ -51,8 +45,6 @@ namespace Paycore.TestX.AuthTests
         [Fact]
         public void Login_ShouldReturn_DataResult()
         {
-            Expression<Func<UserEntity, bool>> expr = user => user.Email == loginDtoTest.Email;
-
             _userSeviceMock.Setup(x => x.GetFirstOrDefault(It.IsAny<Expression<Func<UserEntity, bool>>>())).Returns(userModelTest);
             _userSeviceMock.Setup(x => x.Update(userModelTest)).Returns(new DataResult { IsSuccess = true});
 
@@ -64,9 +56,6 @@ namespace Paycore.TestX.AuthTests
 
             Assert.NotNull(result);
             Assert.True(result!.IsSuccess);
-            Assert.IsType<SuccessDataResult>(result);
-            Assert.NotEmpty(result.Message);
-            Assert.IsNotType<ErrorDataResult>(result);
         }
 
         [Fact]

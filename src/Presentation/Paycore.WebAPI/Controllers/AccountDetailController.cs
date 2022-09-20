@@ -16,14 +16,14 @@ namespace Paycore.WebAPI.Controllers
         [HttpGet("GetUserProductOffers")]
         public IActionResult GetUserProductOffers()
         {
-            long userId = Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            long userId = Convert.ToInt64(User?.FindFirstValue(ClaimTypes.NameIdentifier));
             return ApiResponse(_accountDetailService.GetUserProductOffers(userId));
         }
 
         [HttpGet("GetUserOffersOnProducts")]
-        public IActionResult GetOffersOnUserProducts()
+        public IActionResult GetUserOffersOnProducts()
         {
-            long userId = Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            long userId = Convert.ToInt64(User?.FindFirstValue(ClaimTypes.NameIdentifier));
             return ApiResponse(_accountDetailService.GetUserOffersOnProducts(userId));
         }
     }

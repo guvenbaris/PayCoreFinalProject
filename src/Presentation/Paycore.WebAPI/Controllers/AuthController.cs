@@ -18,7 +18,7 @@ public class AuthController : BaseApiResponse
     [HttpPost("Login")]
     public IActionResult Login([FromBody] LoginDto loginDto)
     {
-        return ApiResponse(_authService.Login(loginDto));
+       return ApiResponse(_authService.Login(loginDto));
     }
 
     [HttpPost("Register")]

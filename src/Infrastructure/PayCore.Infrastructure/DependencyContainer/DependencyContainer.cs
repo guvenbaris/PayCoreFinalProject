@@ -21,7 +21,7 @@ namespace PayCore.Infrastructure.DependencyContainer
             services.Configure<PayCoreAppSettings>(appSettingsSection);
 
             var mapper = new ModelMapper();
-            string connectionString = configurationManager.GetConnectionString("MySql");
+            string connectionString = configurationManager.GetConnectionString("PostgreSql");
             mapper.AddMappings(typeof(DependencyContainer).Assembly.ExportedTypes);
             HbmMapping domainMapping = mapper.CompileMappingForAllExplicitlyAddedEntities();
 

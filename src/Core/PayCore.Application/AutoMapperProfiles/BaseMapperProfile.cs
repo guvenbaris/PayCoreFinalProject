@@ -12,7 +12,7 @@ namespace PayCore.Application.AutoMapperProfiles
             #region Entity To Model Mapping
             CreateMap<BaseEntity, BaseModel>().ReverseMap();
             CreateMap<CategoryEntity, CategoryModel>().IncludeBase<BaseEntity, BaseModel>().ReverseMap();
-            CreateMap<ColorEntity, CategoryModel>().IncludeBase<BaseEntity, BaseModel>().ReverseMap();
+            CreateMap<ColorEntity, ColorModel>().IncludeBase<BaseEntity, BaseModel>().ReverseMap();
             CreateMap<BrandEntity, BrandModel>().IncludeBase<BaseEntity, BaseModel>().ReverseMap();
             CreateMap<UserEntity, UserModel>().IncludeBase<BaseEntity, BaseModel>().ReverseMap();
             CreateMap<OfferEntity, OfferModel>().IncludeBase<BaseEntity,BaseModel>();

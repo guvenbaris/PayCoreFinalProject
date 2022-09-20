@@ -17,13 +17,6 @@ public class UserMapping : ClassMapping<UserEntity>
             x.Column("Id");
             x.Generator(Generators.Increment);
         });
-
-        Property(b => b.LockoutEnabled, x =>
-        {
-            x.Type(NHibernateUtil.Boolean);
-            x.Column("lockout_enabled");
-            x.NotNullable(true);
-        });
         Property(b => b.FirstName, x =>
         {
             x.Type(NHibernateUtil.String);
@@ -45,13 +38,6 @@ public class UserMapping : ClassMapping<UserEntity>
             x.Column("email");
             x.NotNullable(true);
         });
-
-        Property(b => b.AccessFailedCount, x =>
-        {
-            x.Type(NHibernateUtil.Int32);
-            x.Column("access_failed_count");
-        });
-
         Property(b => b.Password, x =>
         {
             x.Type(NHibernateUtil.String);
@@ -69,6 +55,23 @@ public class UserMapping : ClassMapping<UserEntity>
             x.Type(NHibernateUtil.DateTime);
             x.NotNullable(true);
             x.Column("last_activity");
+        });
+        Property(b => b.AccessFailedCount, x =>
+        {
+            x.Type(NHibernateUtil.Int32);
+            x.Column("access_failed_count");
+        });
+        Property(b => b.LockoutEnabled, x =>
+        {
+            x.Type(NHibernateUtil.Boolean);
+            x.Column("lockout_enabled");
+            x.NotNullable(true);
+        });
+        Property(b => b.IsDeleted, x =>
+        {
+            x.Type(NHibernateUtil.Boolean);
+            x.Column("is_deleted");
+            x.NotNullable(true);
         });
     }
 }

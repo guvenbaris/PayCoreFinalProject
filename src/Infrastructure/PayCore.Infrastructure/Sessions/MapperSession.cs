@@ -68,7 +68,7 @@ namespace PayCore.Infrastructure.Sessions
 
         public T GetFirstOrDefault(Expression<Func<T, bool>> filter)
         {
-            return _session.Query<T>().Where(x=>x.IsDeleted == false).FirstOrDefault(filter)!;
+            return _session.Query<T>().FirstOrDefault(filter)!;
         }
 
         public IEnumerable<T> SearchWithIn(string columnName, string parameters)

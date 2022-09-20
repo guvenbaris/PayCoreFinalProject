@@ -14,6 +14,7 @@ using PayCore.Application.Utilities.Hash;
 using PayCore.Application.Utilities.Results;
 using PayCore.Application.Validations.AuthValidation;
 using PayCore.Application.ViewModel.User;
+using PayCore.Domain.Jwt;
 
 namespace PayCore.BusinessService.HelperServices;
 
@@ -42,11 +43,9 @@ public class AuthService : IAuthService
         if (userFind == null)
             return new ErrorDataResult { ErrorMessage = AuthConstants.PasswordOrMailError };
 
-        var existingPassword =  HashingHelper.CreatePasswordHash(userFind.Password, userFind.Email);
-
         var verifyPassword =  HashingHelper.CreatePasswordHash(loginDto.Password, loginDto.Email);
 
-        if (!HashingHelper.VerifyPasswordHash(verifyPassword, existingPassword))
+        if (!HashingHelper.VerifyPasswordHash(verifyPassword, userFind.Password))
             return new ErrorDataResult { ErrorMessage = AuthConstants.PasswordOrMailError };
 
         var accessControl = AccessRightControl(userFind);
@@ -57,7 +56,7 @@ public class AuthService : IAuthService
         var tokenResult =  _tokenService.GenerateToken(userFind);
 
         if (tokenResult.IsSuccess)
-            return new SuccessDataResult {Data = tokenResult.Data, Message = "Login is successful" };
+            return tokenResult;
 
         return new ErrorDataResult { ErrorMessage = "Login is not successful" };
     }

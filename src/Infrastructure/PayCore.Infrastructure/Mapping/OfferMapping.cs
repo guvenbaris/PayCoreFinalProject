@@ -17,6 +17,20 @@ namespace PayCore.Infrastructure.Mapping
                 x.Column("Id");
                 x.Generator(Generators.Increment);
             });
+            ManyToOne(c => c.Product, p =>
+            {
+                p.Column("product_id");
+                p.NotNullable(true);
+                p.Fetch(FetchKind.Join);
+                Lazy(true);
+            });
+            ManyToOne(c => c.User, p =>
+            {
+                p.Column("user_id");
+                p.Fetch(FetchKind.Join);
+                p.NotNullable(true);
+                Lazy(false);
+            });
             Property(b => b.OfferedPrice, x =>
             {
                 x.Type(NHibernateUtil.Decimal);
@@ -35,20 +49,6 @@ namespace PayCore.Infrastructure.Mapping
                 x.Type(NHibernateUtil.Boolean);
                 x.Column("is_deleted");
                 x.NotNullable(true);
-            });
-            ManyToOne(c => c.Product, p =>
-            {
-                p.Column("product_id");
-                p.NotNullable(true);
-                p.Fetch(FetchKind.Join);
-                Lazy(true);
-            });
-            ManyToOne(c => c.User, p =>
-            {
-                p.Column("user_id");
-                p.Fetch(FetchKind.Join);
-                p.NotNullable(true);
-                Lazy(false);
             });
         }
     }

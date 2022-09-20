@@ -20,7 +20,6 @@ namespace Paycore.TestX.CategoryTests
         private readonly Mock<IUnitOfWork<CategoryEntity, CategoryModel>> _unitOfWorkGet;
         private readonly IMapper _mapper;
 
-
         public CategoryModel CategoryTestModel { get; set; } = new CategoryModel { Id = 1, CategoryName = "Test-1" };
         public CategoryEntity CategoryTestEntity { get; set; } = new CategoryEntity { Id = 1, CategoryName = "Test-1" };
 

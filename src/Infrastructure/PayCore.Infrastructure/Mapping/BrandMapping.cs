@@ -21,7 +21,7 @@ namespace PayCore.Infrastructure.Mapping
             Property(b => b.BrandName, x =>
             {
                 x.Type(NHibernateUtil.String);
-                x.Column("brandname");
+                x.Column("brand_name");
                 x.NotNullable(true);
                 x.Length(100);
             });
