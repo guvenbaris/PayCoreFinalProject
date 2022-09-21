@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PayCore.Application.Interfaces.Services;
 using PayCore.Application.Models;
 using PayCore.Domain.Entities;
 
 namespace PayCore.Application.Utilities.BaseApiTools;
+
+[Authorize]
 public  abstract class BaseApiController<TEntity, TModel> : BaseApiResponse
     where TModel : BaseModel
     where TEntity : BaseEntity

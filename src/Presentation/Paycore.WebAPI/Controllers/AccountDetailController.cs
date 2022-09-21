@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using PayCore.Application.Constant.Roles;
 using PayCore.Application.Interfaces.HelperServices;
 using PayCore.Application.Utilities.BaseApiTools;
 using System.Security.Claims;
 
 namespace Paycore.WebAPI.Controllers
 {
+    [Authorize(Roles = Role.Member)]
     public class AccountDetailController : BaseApiResponse
     {
         private readonly IAccountDetailService _accountDetailService;
@@ -28,3 +31,4 @@ namespace Paycore.WebAPI.Controllers
         }
     }
 }
+

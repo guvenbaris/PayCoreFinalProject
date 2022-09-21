@@ -44,7 +44,11 @@ namespace PayCore.BusinessService.Services
             if (offer is null)
                 return new ErrorDataResult { ErrorMessage = OfferConstant.OfferNotFound}; 
 
-            var product = _productService.GetById(offerId);
+            var product = _productService.GetById(offer.ProductId!.Value);
+
+            if (product is null)
+                return new ErrorDataResult { ErrorMessage = ProductConstant.ProductNotFound };
+
             product.IsOfferable = false;
             product.IsSold = true;
             product.UserId = offer.UserId;
@@ -78,7 +82,7 @@ namespace PayCore.BusinessService.Services
             if (offer is null)
                 return new ErrorDataResult { ErrorMessage = OfferConstant.OfferNotFound };
 
-            var product = _productService.GetById(offerId);
+            var product = _productService.GetById(offer.ProductId!.Value);
 
             if (product is null)
                 return new ErrorDataResult { ErrorMessage = ProductConstant.ProductNotFound};
