@@ -68,7 +68,7 @@ karşılıkları oluşturularak database işlemleri yapılır.
 
 *Mapping* : Database de ki tablolarımızın nasıl oluşacağını belirlediğimiz nesnelerdir. Burada belirlediğimiz ayarlar ile database tablolarımız oluşur.  
 *DependencyContainers* : Infrastructure katmanının bağımlılık çözümleyici kısmıdır. WebAPI ye eklenmesi gerekir.  
-*Sessions* : Application katmanın da ki modellere özgü Interface'lerin karşılıklarının olduğu kısımdır. 
+*Sessions* : Application katmanın da ki modellere özgü Interface'lerin karşılıklarının olduğu kısımdır.    
 *UnitOfWork* : [Unit Of Work](https://www.c-sharpcorner.com/UploadFile/b1df45/unit-of-work-in-repository-pattern/#:~:text=Unit%20of%20Work%20is%20the,update%2Fdelete%20and%20so%20on.) design pattern, Session nesnelerinin tek bir yerden 
 yönetilebilmesini sağlamak amacıyla kullanılmıştır.
 
@@ -89,7 +89,7 @@ servicelerimizi yapılandırırız.
 
 *Cache* : Cacheleme işlemlerini kontrol ettiğimiz service'dir.
 *DependencyContainers* : Service katmanının bağımlılık çözümleyici kısmıdır.
-*HelperServices* : Database'e bağımlı olmayan projede diğer service'lere inject edilerek kullanılan servicelerdir.
+*HelperServices* : Database'e bağımlı olmayan projede diğer service'lere inject edilerek kullanılan servicelerdir.    
 *Services* : Entitylerimizin database ile ilişkilerinin iş mantığı kuralları çerçevesinde gerçekleştirilmesini sağlayan servicelerdir.
 
 ## WebAPI
@@ -101,7 +101,7 @@ hangi bir uygulamaya da servis edebiliriz.
 
 *Controller*  : Yapılan isteğin türüne göre HTTP verblerinden(Get,Put,Delete,Post) uygun olan fonksiyonun içeriği çalışacaktır. 
 Çalışan bu kısım istekte bulunan clienta(isteği atan) response döndürecektir.  
-*Middlewares* : Custom Excepstion Middleware yazılmıştır. Request gelip response dönene kadar 
+*Middlewares* : Custom Exception Middleware yazılmıştır. Request gelip response dönene kadar 
 herhangi bir hata olması durumunda hata loglanacak ve de kullanıcı kısmına daha okunabilir hata yansıtmamızı sağlayacaktır.
 
 ## Consumer
@@ -125,7 +125,7 @@ Kullanıcı login ve register işlemlerini yapabilmektedir.
 
 **AccountDetails** 
 
-Kullanıcı kendi ürünlerine gelen teklifleri listeleyebilir(GetUserProductOffers()).
+Kullanıcı kendi ürünlerine gelen teklifleri listeleyebilir(GetUserProductOffers()).  
 Ayrıca teklif yaptığı ürünleri de listeleyebilir(GetUserOffersOnProducts()).
 
 ![AccountDetails Controller](Screenshots/controller/account.jpg)
@@ -138,24 +138,24 @@ Ayrıca teklif yaptığı ürünleri de listeleyebilir(GetUserOffersOnProducts()
 
 **OffersController**
 
-Teklif verme, güncelleme, silme, listeleme, teklif onaylama ve teklifi reddetme işlemleri yapılabilmektedir.
+Teklif verme, güncelleme, silme, listeleme, teklif onaylama ve teklifi reddetme apileri bulunmaktadır
 
 ![Offer Controller](Screenshots/controller/offer.jpg)
 
 **CategoriesController**
 
-Kategori ekleme, güncelleme, silme ve listeleme işlemleri yapılabilmektedir.
+Kategori ekleme, güncelleme, silme ve listeleme apileri bulunmaktadır
 
 ![Category Controller](Screenshots/controller/category.jpg)
 
 **BrandsController**
 
-Marka ekleme, güncelleme, silme ve listeleme işlemleri yapılabilmektedir.
+Marka ekleme, güncelleme, silme ve listeleme apileri bulunmaktadır
 
 ![Brand Controller](Screenshots/controller/brand.jpg)
 
 **ColorsController**
 
-Renk ekleme, güncelleme, silme ve listeleme işlemleri yapılabilmektedir.
+Renk ekleme, güncelleme, silme ve listeleme apileri bulunmaktadır
 
 ![Color Controller](Screenshots/controller/color.jpg)
