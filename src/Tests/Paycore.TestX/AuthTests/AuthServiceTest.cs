@@ -25,7 +25,7 @@ namespace Paycore.TestX.AuthTests
 
         public LoginDto loginDtoTest { get; set; } = new LoginDto {Email ="test@test.com",Password = "testtest" };
         public UserModel userModelTest { get; set; } 
-            = new UserModel {Id = 0, Email = "test@test.com", Password = "testtest", FirstName = "test", LastName = "XUnit" };
+            = new UserModel {Id = 0, Email = "test@test.com", Password = "44B85C98E94039C8A0A015F6D3A3449E", FirstName = "test", LastName = "XUnit" };
         public RegisterDto registerDtoTest { get; set; }
             = new RegisterDto { Email = "test@test.com", Password = "testtest",FirstName = "test",LastName ="XUnit" };
 
